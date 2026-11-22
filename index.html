@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Omkar Rane</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Omkar Rane, engineering student at Plaksha University. Electronics, robots and the occasional film.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
+<style>
+/* Layout: Apple-style product site. Full-width bands alternate paper and pure black. Each flagship project gets a
+   centred title, a large media slot, a spec strip and left-aligned text beside an engineering drawing.
+   One bold moment: the interactive SipSure cuvette. Single committed look (like apple.com), not theme-switching. */
+:root{
+  --paper:#FBFBFD; --grey:#F2F3F5; --ink:#1D1D1F; --muted:#6E6E73; --hair:#D2D2D7;
+  --black:#000000; --panel:#1C1C1E; --panel-2:#2C2C2E; --on-dark:#F5F5F7; --on-dark-muted:#A1A1A6; --hair-dark:#38383A;
+  --link:#0066CC; --link-dark:#2997FF;
+  --water:#1FA3C8; --argo:#E5782F; --mars:#E0532E; --go:#30D158;
+  --font:"Archivo", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:4px}
+h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:650}
+p{margin:0}
+.in{max-width:1060px;margin:0 auto;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+
+/* Nav */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(251,251,253,.85)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(251,251,253,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.07)}
+.top .in{display:flex;align-items:center;justify-content:space-between;height:48px;gap:16px}
+.top .name{font-weight:650;font-size:17px;color:var(--ink);letter-spacing:-.01em}
+.top ul{display:flex;gap:24px;list-style:none;margin:0;padding:0;font-size:13px}
+.top ul a{color:var(--ink);opacity:.75}
+.top ul a:hover{opacity:1;text-decoration:none}
+
+/* Hero */
+.hero{padding-block:80px 64px;text-align:center}
+.media.portrait{width:156px;margin:0 auto 32px}
+.hero h1{font-size:clamp(56px,11vw,124px);font-weight:800;line-height:.95;letter-spacing:-.025em;font-stretch:72%;text-transform:none}
+.hero .sub{font-size:clamp(21px,2.8vw,28px);font-weight:500;color:var(--muted);max-width:28ch;margin:20px auto 0;line-height:1.22;letter-spacing:-.01em}
+.ctas{display:flex;justify-content:center;align-items:center;gap:24px;margin-top:32px;flex-wrap:wrap;font-size:17px}
+.btn{display:inline-block;background:var(--link);color:#fff;padding:11px 22px;border-radius:980px;font-size:15px;font-weight:500}
+.btn:hover{text-decoration:none;background:#0077ED}
+.facts{margin-top:56px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.facts span{font-size:14px;color:var(--muted);background:var(--grey);padding:7px 14px;border-radius:980px}
+.facts b{color:var(--ink);font-weight:600}
+
+/* Bands */
+.band{padding-block:112px}
+.band.dark{background:var(--black);color:var(--on-dark)}
+.band.grey{background:var(--grey)}
+.band.dark a{color:var(--link-dark)}
+.intro{text-align:center}
+.title{font-size:clamp(50px,9vw,104px);font-weight:800;line-height:.98;letter-spacing:-.02em;font-stretch:72%}
+.tagline{font-size:clamp(24px,3.4vw,36px);font-weight:600;line-height:1.12;letter-spacing:-.01em;margin:12px auto 0;max-width:22ch}
+.lead{font-size:19px;line-height:1.5;max-width:58ch;margin:24px auto 0;color:var(--muted)}
+.dark .lead{color:var(--on-dark-muted)}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:14px;color:var(--muted)}
+.dark .status{color:var(--on-dark-muted)}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--go);box-shadow:0 0 0 4px rgba(48,209,88,.18)}
+.status.done i{background:var(--muted);box-shadow:none}
+
+/* Media slots: a photo or video loads from media/…; until it exists, a placeholder names the file to add. */
+.media{position:relative;margin:0;border-radius:24px;overflow:hidden;background:var(--grey);aspect-ratio:16/9;max-width:100%}
+.dark .media{background:var(--panel)}
+.media.square{aspect-ratio:1/1}.media.tall{aspect-ratio:4/5}.media.round{border-radius:50%;aspect-ratio:1/1}
+.media img,.media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.media .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px;color:var(--muted)}
+.dark .media .ph{color:var(--on-dark-muted)}
+.media .ph svg{width:30px;height:30px;opacity:.65;margin-bottom:4px}
+.media .ph strong{font-size:15px;font-weight:600;color:var(--ink)}
+.dark .media .ph strong{color:var(--on-dark)}
+.media .ph small{font-size:12px}
+.media.round .ph small{display:none}
+.media.loaded .ph{display:none}
+.big-media{margin-top:64px}
+.gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:14px;margin-top:64px}
+.gallery .media:first-child{grid-row:span 2;aspect-ratio:auto;min-height:360px}
+.gallery .media:not(:first-child){aspect-ratio:auto;min-height:173px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Browser window frame for screen recordings and site screenshots */
+.window{border-radius:12px;overflow:hidden;border:1px solid var(--hair);background:#fff}
+.window .bar{display:flex;align-items:center;gap:7px;height:30px;padding:0 12px;background:var(--grey);border-bottom:1px solid var(--hair)}
+.window .bar i{width:10px;height:10px;border-radius:50%;background:#FF5F57}.window .bar i:nth-child(2){background:#FEBC2E}.window .bar i:nth-child(3){background:#28C840}
+.window .bar span{margin-left:10px;font-size:12px;color:var(--muted)}
+.window .media{border-radius:0}
+
+/* Spec strip */
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:64px;border-top:1px solid var(--hair)}
+.dark .specs{border-color:var(--hair-dark)}
+.spec{padding:24px 20px 0 0}
+.spec .v{font-size:clamp(36px,4.8vw,56px);font-weight:800;letter-spacing:-.01em;line-height:1;font-stretch:72%}
+.spec .v small{font-size:.42em;font-weight:600;letter-spacing:-.01em;margin-left:3px}
+.spec .k{font-size:14px;color:var(--muted);margin-top:10px;max-width:22ch;line-height:1.4}
+.dark .spec .k{color:var(--on-dark-muted)}
+
+/* Text beside a drawing */
+.split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:64px;align-items:center;margin-top:104px}
+.split.flip{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr)}
+.split.flip > .copy{order:2}
+.copy h3{font-size:clamp(28px,3.4vw,40px);font-weight:750;line-height:1.05;letter-spacing:-.015em;font-stretch:85%}
+.copy p{margin-top:16px;color:var(--muted)}
+.dark .copy p{color:var(--on-dark-muted)}
+.copy b{font-weight:600;color:var(--ink)}
+.dark .copy b{color:var(--on-dark)}
+.plate{border-radius:24px;padding:24px;background:var(--grey);min-width:0}
+.dark .plate{background:var(--panel)}
+.plate .scroll{overflow-x:auto}
+.plate svg{display:block;width:100%;height:auto;min-width:420px}
+.plate figcaption{font-size:13px;color:var(--muted);margin-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.dark .plate figcaption{color:var(--on-dark-muted)}
+figure.plate{margin:0}
+
+/* Drawing styles */
+.dw text{font-family:var(--font);font-size:12px;fill:currentColor}
+.dw .b{font-weight:600;font-size:13px}
+.dw .m{opacity:.6}
+.dw .ln{stroke:currentColor;stroke-width:1.25;fill:none;opacity:.55}
+.dw .ln-s{stroke:currentColor;stroke-width:1.4;fill:none}
+.dw .box{fill:none;stroke:currentColor;stroke-width:1.25;opacity:.85}
+.dw .dash{stroke-dasharray:4 4}
+.dw .ah{fill:currentColor}
+
+/* The interactive cuvette */
+.lab{display:flex;flex-direction:column;gap:18px}
+.lab .controls{display:grid;grid-template-columns:1fr auto auto;gap:20px;align-items:end}
+.lab label{font-size:14px;color:var(--on-dark-muted);display:flex;flex-direction:column;gap:10px}
+.lab input[type=range]{width:100%;accent-color:var(--water)}
+.readout{display:flex;flex-direction:column;align-items:flex-end}
+.readout .n{font-size:30px;font-weight:750;letter-spacing:0;font-stretch:80%;line-height:1;color:var(--on-dark)}
+.readout .l{font-size:12px;color:var(--on-dark-muted);margin-top:4px}
+.tests{display:flex;gap:8px;flex-wrap:wrap}
+.tests button{font:inherit;font-size:13px;padding:6px 12px;border-radius:980px;border:1px solid var(--hair-dark);background:transparent;color:var(--on-dark);cursor:pointer}
+.tests button[aria-pressed=true]{background:var(--on-dark);color:var(--black);border-color:var(--on-dark)}
+
+/* Chemistry table */
+.chem{width:100%;border-collapse:collapse;font-size:15px}
+.chem th{text-align:left;font-weight:500;font-size:13px;color:var(--on-dark-muted);padding:0 12px 12px 0;border-bottom:1px solid var(--hair-dark)}
+.chem td{padding:15px 12px 15px 0;border-bottom:1px solid var(--hair-dark)}
+.chem td:first-child{font-weight:600}
+.chem .sw{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:8px}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.chips span{font-size:13px;padding:5px 12px;border-radius:980px;border:1px solid var(--hair);color:var(--ink)}
+.dark .chips span{border-color:var(--hair-dark);color:var(--on-dark)}
+
+/* Project tiles: varied spans, not a uniform card grid */
+.tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:64px}
+.tile{background:#fff;border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:12px;min-width:0;grid-column:span 3}
+.tile.wide{grid-column:span 6;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.tile.third{grid-column:span 2}
+.tile h3{font-size:30px;font-weight:750;line-height:1.05;letter-spacing:-.01em;font-stretch:85%}
+.tile .ctx{font-size:14px;color:var(--muted)}
+.tile p{color:var(--muted);font-size:16px}
+.tile .media{border-radius:16px;margin-top:8px}
+.tile .side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.robot svg{max-width:300px;min-width:0;margin:0 auto}
+.todo{color:var(--argo)!important;font-weight:500}
+
+/* Leadership list */
+.rows{margin-top:56px;border-top:1px solid var(--hair)}
+.row{display:grid;grid-template-columns:140px minmax(0,1fr) 140px;gap:24px;padding:26px 0;border-bottom:1px solid var(--hair);align-items:baseline}
+.row .when{font-size:15px;color:var(--muted)}
+.row h4{font-size:22px;font-weight:650;letter-spacing:-.005em}
+.row p{color:var(--muted);margin-top:6px;max-width:58ch}
+.row .role{font-size:14px;color:var(--muted);text-align:right}
+
+/* Toolkit */
+.kit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 28px;margin-top:56px}
+.kit div{padding-top:18px;border-top:1px solid var(--hair-dark)}
+.kit h4{font-size:17px;font-weight:600;color:var(--on-dark)}
+.kit p{font-size:15px;color:var(--on-dark-muted);margin-top:6px}
+
+footer{padding-block:24px 36px;font-size:12px;color:var(--muted);background:var(--grey)}
+footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .band{padding-block:80px}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:16px}
+  .split,.split.flip{grid-template-columns:1fr;gap:32px;margin-top:72px}
+  .split.flip > .copy{order:0}
+  .tiles{grid-template-columns:1fr}
+  .tile,.tile.third,.tile.wide{grid-column:auto}
+  .tile.wide{grid-template-columns:1fr;gap:20px}
+  .tile{padding:28px}
+  .kit{grid-template-columns:1fr 1fr}
+  .gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .gallery .media:first-child{grid-column:span 2;grid-row:auto;min-height:220px}
+  .row{grid-template-columns:1fr;gap:4px}
+  .row .role{text-align:left}
+  .lab .controls{grid-template-columns:1fr 1fr}
+  .lab .controls label{grid-column:span 2}
+}
+@media (max-width:520px){ .top ul li.opt{display:none} .top ul{gap:16px} .kit{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Sections">
+  <div class="in">
+    <a class="name" href="#top">Omkar Rane</a>
+    <ul>
+      <li><a href="#sipsure">SipSure</a></li>
+      <li><a href="#argo">ARGO</a></li>
+      <li class="opt"><a href="#rover">Rover</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li class="opt"><a href="#leadership">Leadership</a></li>
+      <li><a href="#creative">Creative</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="in">
+    <figure class="media round portrait" data-src="media/omkar.jpg" data-label="Your photo"></figure>
+    <h1>Omkar Rane</h1>
+    <p class="sub">I'm a second-year engineering student at Plaksha. I mostly build electronics and small robots, and I usually end up filming them too.</p>
+    <div class="ctas">
+      <a class="btn" href="#sipsure">Projects</a>
+      <a href="#contact">Contact me</a>
+    </div>
+    <div class="facts">
+      <span><b>B.Tech</b> at Plaksha University, class of 2029</span>
+      <span>Building <b>SipSure</b></span>
+      <span>Competing in <b>e-Yantra 2026–27</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- SipSure -->
+<section class="band dark" id="sipsure" aria-labelledby="t-sip">
+  <div class="in">
+    <div class="intro">
+      <h2 class="title" id="t-sip">SipSure</h2>
+      <p class="tagline" style="color:var(--water)">Know What You Drink.</p>
+      <p class="lead">A handheld colorimeter, with an app, that tests drinking water for chromium, nitrite, chlorine and lead. Colorimeters from Hach, Hanna and Thermo cost lab money. We're running the same reagent chemistry on much cheaper parts. Five of us are building it as team Rano for the Xylem Water Hackathon 2026–27, and I'm on the device hardware and firmware.</p>
+      <p class="status"><i></i>Chromium is calibrated in the lab. Testing on the device is next.</p>
+    </div>
+
+    <figure class="media big-media" data-src="media/sipsure-demo.mp4" data-kind="video" data-label="SipSure demo video"></figure>
+
+    <div class="specs">
+      <div class="spec"><div class="v">4</div><div class="k">water tests on one device</div></div>
+      <div class="spec"><div class="v">2<small>ESP32-S3</small></div><div class="k">a measuring board and a camera board, linked over UART</div></div>
+      <div class="spec"><div class="v">16<small>bit</small></div><div class="k">ADS1115 converter reading the OPT101 photodiode</div></div>
+      <div class="spec"><div class="v">RGB</div><div class="k">light source, so a new test needs a calibration, not new hardware</div></div>
+    </div>
+
+    <div class="split">
+      <div class="copy">
+        <h3>How it measures</h3>
+        <p>The reagent changes the sample's colour, and the more contaminant there is, the deeper the colour gets. We shine light through the cuvette and the photodiode measures how much makes it out the other side. From that we get absorbance, and the calibration curve we made in the lab turns it into mg/L.</p>
+        <p>Try the slider. A darker sample lets less light through, and absorbance goes up in a straight line with concentration.</p>
+      </div>
+      <figure class="plate lab" style="color:var(--on-dark)">
+        <div class="tests" role="group" aria-label="Choose a test">
+          <button type="button" data-c="#8E3AA6" data-n="Chromium (VI)" aria-pressed="true">Chromium</button>
+          <button type="button" data-c="#D63384" data-n="Nitrite" aria-pressed="false">Nitrite</button>
+          <button type="button" data-c="#F06292" data-n="Free chlorine" aria-pressed="false">Chlorine</button>
+          <button type="button" data-c="#E0503A" data-n="Lead" aria-pressed="false">Lead</button>
+        </div>
+        <div class="scroll">
+        <svg class="dw" id="cuv" viewBox="0 0 520 220" role="img" aria-label="Optical path: an RGB LED shines through the cuvette onto an OPT101 photodiode. The camera board views the cuvette against a white backlight.">
+          <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
+          <rect class="box" x="16" y="88" width="72" height="48" rx="10"/>
+          <circle cx="36" cy="112" r="5" fill="#FF453A"/><circle cx="52" cy="112" r="5" fill="#30D158"/><circle cx="68" cy="112" r="5" fill="#0A84FF"/>
+          <text x="52" y="156" text-anchor="middle">RGB LED</text>
+          <path d="M88 104 L196 99 L196 125 L88 120 Z" fill="var(--water)" opacity=".22"/>
+          <line x1="90" y1="112" x2="192" y2="112" class="ln-s" stroke="var(--water)" marker-end="url(#a1)"/>
+          <text x="140" y="92" text-anchor="middle" class="m">I₀ in</text>
+          <rect id="liquid" x="198" y="66" width="80" height="94" rx="3" fill="#8E3AA6" opacity=".45"/>
+          <rect class="box" x="198" y="48" width="80" height="112" rx="3"/>
+          <text x="238" y="178" text-anchor="middle" class="b">Cuvette</text>
+          <text x="238" y="194" text-anchor="middle" class="m">clear on all four walls</text>
+          <line x1="198" y1="38" x2="278" y2="38" class="ln"/><line x1="198" y1="33" x2="198" y2="43" class="ln"/><line x1="278" y1="33" x2="278" y2="43" class="ln"/>
+          <text x="238" y="27" text-anchor="middle" class="m">path length l</text>
+          <path id="beamOut" d="M278 104 L384 106 L384 118 L278 120 Z" fill="var(--water)" opacity=".2"/>
+          <line id="lineOut" x1="282" y1="112" x2="380" y2="112" class="ln-s" stroke="var(--water)" marker-end="url(#a1)"/>
+          <text x="330" y="94" text-anchor="middle" class="m">I out</text>
+          <rect class="box" x="386" y="88" width="68" height="48" rx="8"/>
+          <text x="420" y="116" text-anchor="middle" class="b">OPT101</text>
+          <line x1="454" y1="112" x2="478" y2="112" class="ln" marker-end="url(#a1)"/>
+          <text x="500" y="108" text-anchor="middle">ADS</text><text x="500" y="122" text-anchor="middle">1115</text>
+        </svg>
+        </div>
+        <div class="controls">
+          <label for="conc">Sample concentration (relative)
+            <input type="range" id="conc" min="0" max="100" value="45">
+          </label>
+          <div class="readout"><span class="n" id="tOut">36%</span><span class="l">light through</span></div>
+          <div class="readout"><span class="n" id="aOut">0.45</span><span class="l">absorbance</span></div>
+        </div>
+        <figcaption><span>Figure 1. Optical path, A = log₁₀(I₀ ÷ I) = ε·l·c</span><span>Illustrative values</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="split flip">
+      <div class="copy">
+        <h3>The four tests</h3>
+        <p>Each one uses a published colour reaction, so anyone can check our numbers against the standard method. We also wanted fluoride, but we didn't have the reagent, so it's out of the first version.</p>
+      </div>
+      <figure class="plate" style="color:var(--on-dark)">
+        <div class="scroll">
+        <table class="chem">
+          <thead><tr><th>Analyte</th><th>Reagent</th><th>Colour</th><th>Typical peak</th></tr></thead>
+          <tbody>
+            <tr><td>Chromium (VI)</td><td>Diphenylcarbazide</td><td><span class="sw" style="background:#8E3AA6"></span>Violet</td><td>about 540 nm</td></tr>
+            <tr><td>Nitrite</td><td>Griess</td><td><span class="sw" style="background:#D63384"></span>Pink</td><td>about 540 nm</td></tr>
+            <tr><td>Free chlorine</td><td>DPD</td><td><span class="sw" style="background:#F06292"></span>Pink</td><td>about 515 nm</td></tr>
+            <tr><td>Lead</td><td>PAR</td><td><span class="sw" style="background:#E0503A"></span>Red</td><td>about 520 nm</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <figcaption><span>Figure 2. Test menu</span><span>Peaks are typical literature values</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="split">
+      <div class="copy">
+        <h3>Why two boards</h3>
+        <p>The main ESP32-S3 does the measuring and runs the 1.3-inch OLED and buttons. A second ESP32-S3 with a camera photographs the same cuvette against a white backlight, so each reading comes with a picture we can check it against. Readings go to the app with a location attached, and we plan to send them to the government's water-quality database.</p>
+        <p>Before building anything I simulated the circuit in my own fork of the <b>Velxio</b> simulator.</p>
+        <div class="chips"><span>ESP32-S3</span><span>Arduino C++</span><span>OPT101</span><span>ADS1115</span><span>UART</span><span>I²C</span></div>
+      </div>
+      <figure class="plate" style="color:var(--on-dark)">
+        <div class="scroll">
+        <svg class="dw" viewBox="0 0 520 240" role="img" aria-label="System: the main ESP32-S3 reads the ADS1115 over I2C, drives the RGB LED with PWM, runs the OLED and buttons, talks to the camera ESP32-S3 over UART, and sends geotagged readings to the SipSure app.">
+          <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
+          <rect x="185" y="80" width="150" height="80" rx="12" fill="var(--water)" opacity=".14"/>
+          <rect x="185" y="80" width="150" height="80" rx="12" fill="none" stroke="var(--water)" stroke-width="1.6"/>
+          <text x="260" y="116" text-anchor="middle" class="b">ESP32-S3</text><text x="260" y="134" text-anchor="middle" class="m">main board</text>
+          <rect class="box" x="16" y="18" width="122" height="40" rx="8"/><text x="77" y="42" text-anchor="middle">ADS1115 + OPT101</text>
+          <rect class="box" x="16" y="100" width="122" height="40" rx="8"/><text x="77" y="124" text-anchor="middle">RGB LED</text>
+          <rect class="box" x="16" y="182" width="122" height="40" rx="8"/><text x="77" y="206" text-anchor="middle">OLED and buttons</text>
+          <rect class="box" x="382" y="18" width="122" height="40" rx="8"/><text x="443" y="42" text-anchor="middle">ESP32-S3 camera</text>
+          <rect class="box" x="382" y="182" width="122" height="40" rx="8"/><text x="443" y="206" text-anchor="middle">SipSure app</text>
+          <path d="M138 38 L162 38 L162 96 L183 96" class="ln" marker-end="url(#a2)"/><text x="148" y="72" class="m">I²C</text>
+          <line x1="183" y1="120" x2="140" y2="120" class="ln" marker-end="url(#a2)"/><text x="146" y="112" class="m">PWM</text>
+          <path d="M183 144 L162 144 L162 202 L140 202" class="ln" marker-end="url(#a2)"/>
+          <path d="M335 96 L358 96 L358 38 L380 38" class="ln" marker-end="url(#a2)"/><text x="364" y="72" class="m">UART</text>
+          <path d="M335 144 L358 144 L358 202 L380 202" class="ln" marker-end="url(#a2)"/><text x="366" y="168" class="m">geotagged</text><text x="366" y="182" class="m">readings</text>
+        </svg>
+        </div>
+        <figcaption><span>Figure 3. System</span><span>Team Rano, five members</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ARGO -->
+<section class="band" id="argo" aria-labelledby="t-argo">
+  <div class="in">
+    <div class="intro">
+      <h2 class="title" id="t-argo">ARGO</h2>
+      <p class="tagline" style="color:var(--argo)">Parcel pickup at the campus gate, checked by face.</p>
+      <p class="lead">Our ILGC-II project. ARGO logs every parcel that comes in at Plaksha's Gate 1 and checks the student's face when they pick it up. I was project manager for our team of six, Team Helios. We built the app with Google Antigravity, an AI coding agent. I worked out the system design and user flows, then tested and debugged what it produced.</p>
+      <p class="status done"><i></i>Finished as a working prototype</p>
+    </div>
+
+    <div class="gallery">
+      <figure class="media" data-src="media/argo-1.jpg" data-label="ARGO photo 1"></figure>
+      <figure class="media" data-src="media/argo-2.jpg" data-label="ARGO photo 2"></figure>
+      <figure class="media" data-src="media/argo-3.jpg" data-label="ARGO photo 3"></figure>
+    </div>
+
+    <div class="split">
+      <div class="copy">
+        <h3>Why face verification</h3>
+        <p>We surveyed students, and most of them preferred a face scan to a QR code, so that's what pickup uses. Gemini 2.5 Flash reads the label on each parcel so nobody has to type it in. If it can't read one, the guard enters it by hand.</p>
+        <p>If a parcel isn't collected, the student gets another reminder every 48 hours.</p>
+        <div class="chips"><span>Google Antigravity</span><span>Flutter</span><span>Firebase</span><span>Gemini 2.5 Flash</span><span>MobileFaceNet</span><span>InsightFace</span></div>
+      </div>
+      <figure class="plate" style="color:var(--ink)">
+        <div class="scroll">
+        <svg class="dw" viewBox="0 0 530 320" role="img" aria-label="Parcel flow: parcel arrives, Gemini reads the label or it falls back to manual entry, a shelf slot is assigned, the student is notified, the student's face is matched and the parcel is handed over. If not picked up in 48 hours, the student is reminded again.">
+          <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
+          <rect class="box" x="16" y="20" width="140" height="40" rx="20"/><text x="86" y="44" text-anchor="middle">Parcel arrives</text>
+          <rect x="190" y="20" width="140" height="40" rx="8" fill="none" stroke="var(--argo)" stroke-width="1.6"/><text x="260" y="44" text-anchor="middle">Gemini reads label</text>
+          <rect class="box" x="364" y="20" width="140" height="40" rx="8"/><text x="434" y="44" text-anchor="middle">Shelf slot assigned</text>
+          <rect class="box dash" x="190" y="96" width="140" height="40" rx="8"/><text x="260" y="120" text-anchor="middle">Manual entry</text>
+          <rect class="box" x="364" y="176" width="140" height="40" rx="8"/><text x="434" y="200" text-anchor="middle">Student notified</text>
+          <rect x="190" y="176" width="140" height="40" rx="8" fill="none" stroke="var(--argo)" stroke-width="1.6"/><text x="260" y="200" text-anchor="middle">Face match</text>
+          <rect x="16" y="176" width="140" height="40" rx="20" fill="var(--argo)" opacity=".16"/><rect x="16" y="176" width="140" height="40" rx="20" fill="none" stroke="var(--argo)" stroke-width="1.4"/><text x="86" y="200" text-anchor="middle" class="b">Handed over</text>
+          <rect class="box dash" x="364" y="262" width="140" height="44" rx="8"/><text x="434" y="281" text-anchor="middle">Not picked up</text><text x="434" y="297" text-anchor="middle" class="m">after 48 hours</text>
+          <line x1="156" y1="40" x2="188" y2="40" class="ln" marker-end="url(#a3)"/>
+          <line x1="330" y1="40" x2="362" y2="40" class="ln" marker-end="url(#a3)"/>
+          <line x1="260" y1="60" x2="260" y2="94" class="ln dash" marker-end="url(#a3)"/><text x="268" y="82" class="m">if it fails</text>
+          <path d="M330 116 L400 116 L400 62" class="ln dash" marker-end="url(#a3)"/>
+          <line x1="470" y1="60" x2="470" y2="174" class="ln" marker-end="url(#a3)"/>
+          <line x1="364" y1="196" x2="332" y2="196" class="ln" marker-end="url(#a3)"/>
+          <line x1="190" y1="196" x2="158" y2="196" class="ln" marker-end="url(#a3)"/>
+          <line x1="410" y1="216" x2="410" y2="260" class="ln dash" marker-end="url(#a3)"/>
+          <path d="M504 284 L518 284 L518 196 L506 196" class="ln dash" marker-end="url(#a3)"/><text x="508" y="246" class="m" text-anchor="end">remind</text>
+        </svg>
+        </div>
+        <figcaption><span>Figure 4. Parcel flow at Gate 1</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Rover -->
+<section class="band dark" id="rover" aria-labelledby="t-rover">
+  <div class="in">
+    <div class="intro">
+      <h2 class="title" id="t-rover">Team Kalki</h2>
+      <p class="tagline" style="color:var(--mars)">Electronics for a Mars rover.</p>
+      <p class="lead">Plaksha's University Rover Challenge team has about 50 students. I co-headed the electronics subsystem from my first year until late 2026. In that time we cleared the Preliminary Design Review and reached the System Acceptance Review with working prototypes.</p>
+    </div>
+
+    <figure class="media big-media" data-src="media/kalki-rover.mp4" data-kind="video" data-label="Team Kalki rover video"></figure>
+
+    <div class="specs">
+      <div class="spec"><div class="v">~50</div><div class="k">students on the team</div></div>
+      <div class="spec"><div class="v">CAN</div><div class="k">bus between boards, with FlexCAN_T4</div></div>
+      <div class="spec"><div class="v">Teensy</div><div class="k">4.0 and 4.1 boards running the drive firmware</div></div>
+      <div class="spec"><div class="v">SAR</div><div class="k">review stage reached after clearing the PDR</div></div>
+    </div>
+
+    <div class="split">
+      <div class="copy">
+        <h3>How the boards talk</h3>
+        <p>All the boards on the rover share one pair of wires, using CAN. Each message has an ID. If two boards send at the same moment, the one with the higher-priority ID goes through and nothing gets corrupted. Cars use the same bus for the same reason.</p>
+        <p>My part was the Teensy 4.x firmware for the drive system. It sends and receives these messages with FlexCAN_T4 and reads the wheel encoders. I also ran some basic servo PWM tests on an <b>STM32G474RE</b>.</p>
+        <div class="chips"><span>Teensy 4.0 and 4.1</span><span>Embedded C++</span><span>CAN bus</span><span>FlexCAN_T4</span></div>
+      </div>
+      <figure class="plate" style="color:var(--on-dark)">
+        <div class="scroll">
+        <svg class="dw" viewBox="0 0 520 210" role="img" aria-label="CAN bus: several boards, each with a CAN transceiver, connect to the same two wires, CAN high and CAN low, with a 120 ohm resistor at each end of the bus.">
+          <line x1="40" y1="130" x2="452" y2="130" stroke="var(--mars)" stroke-width="2"/>
+          <line x1="40" y1="160" x2="452" y2="160" class="ln-s"/>
+          <text x="460" y="134" class="b">CAN H</text><text x="460" y="164" class="b">CAN L</text>
+          <rect x="22" y="128" width="16" height="34" rx="3" class="box"/><text x="30" y="186" text-anchor="middle" class="m">120 Ω</text>
+          <rect x="428" y="128" width="16" height="34" rx="3" class="box"/><text x="436" y="186" text-anchor="middle" class="m">120 Ω</text>
+          <g>
+            <rect x="70" y="24" width="110" height="52" rx="10" fill="var(--mars)" opacity=".2"/><rect x="70" y="24" width="110" height="52" rx="10" fill="none" stroke="var(--mars)" stroke-width="1.6"/>
+            <text x="125" y="46" text-anchor="middle" class="b">Teensy 4.x</text><text x="125" y="63" text-anchor="middle" class="m">drive firmware</text>
+            <rect x="95" y="88" width="60" height="22" rx="4" class="box"/><text x="125" y="103" text-anchor="middle" class="m">transceiver</text>
+            <line x1="125" y1="76" x2="125" y2="88" class="ln"/><line x1="115" y1="110" x2="115" y2="130" class="ln-s"/><line x1="135" y1="110" x2="135" y2="160" class="ln-s"/>
+          </g>
+          <g>
+            <rect x="205" y="24" width="110" height="52" rx="10" class="box"/>
+            <text x="260" y="46" text-anchor="middle" class="b">Board 2</text><text x="260" y="63" text-anchor="middle" class="m">another subsystem</text>
+            <rect x="230" y="88" width="60" height="22" rx="4" class="box"/><text x="260" y="103" text-anchor="middle" class="m">transceiver</text>
+            <line x1="260" y1="76" x2="260" y2="88" class="ln"/><line x1="250" y1="110" x2="250" y2="130" class="ln-s"/><line x1="270" y1="110" x2="270" y2="160" class="ln-s"/>
+          </g>
+          <g>
+            <rect x="340" y="24" width="96" height="52" rx="10" class="box dash"/>
+            <text x="388" y="54" text-anchor="middle" class="b">More boards</text>
+            <rect x="358" y="88" width="60" height="22" rx="4" class="box dash"/><text x="388" y="103" text-anchor="middle" class="m">transceiver</text>
+            <line x1="388" y1="76" x2="388" y2="88" class="ln"/><line x1="378" y1="110" x2="378" y2="130" class="ln-s"/><line x1="398" y1="110" x2="398" y2="160" class="ln-s"/>
+          </g>
+        </svg>
+        </div>
+        <figcaption><span>Figure 5. CAN bus on the rover, simplified</span><span>Terminated with 120 Ω at each end</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="band grey" id="projects" aria-labelledby="t-proj">
+  <div class="in">
+    <div class="intro">
+      <h2 class="title" id="t-proj">Other projects</h2>
+      <p class="lead">Smaller builds, a simulator and a couple of tools. Most of these are still in progress.</p>
+    </div>
+
+    <div class="tiles">
+      <article class="tile wide">
+        <div class="side">
+          <p class="ctx">IM Project Competition, Fall 2026</p>
+          <h3>Navigation robot</h3>
+          <p>For a navigation board and a speed race. My first version kept drifting to one side because the two motors didn't have the same top speed. So I rebuilt it on a Raspberry Pi Pico and added wheel encoders, which let me match the speeds in closed loop.</p>
+          <figure class="plate robot" style="color:var(--ink);background:var(--grey);padding:16px;margin-top:4px">
+            <svg class="dw" viewBox="0 0 300 210" role="img" aria-label="Top view: two rear drive wheels with encoders, a front caster, three ultrasonic sensors across the front, two downward IR sensors and the Pico in the middle.">
+              <rect x="82" y="36" width="136" height="150" rx="20" class="box"/>
+              <rect x="58" y="136" width="20" height="44" rx="4" class="box"/><rect x="222" y="136" width="20" height="44" rx="4" class="box"/>
+              <text x="68" y="200" text-anchor="middle" class="m">encoder</text><text x="232" y="200" text-anchor="middle" class="m">encoder</text>
+              <circle cx="150" cy="62" r="9" class="box"/><text x="150" y="86" text-anchor="middle" class="m">caster</text>
+              <rect x="136" y="24" width="28" height="12" rx="3" fill="var(--go)"/>
+              <rect x="86" y="46" width="12" height="28" rx="3" fill="var(--go)"/><rect x="202" y="46" width="12" height="28" rx="3" fill="var(--go)"/>
+              <text x="150" y="16" text-anchor="middle">3 × HC-SR04</text>
+              <circle cx="128" cy="110" r="5" fill="var(--argo)"/><circle cx="172" cy="110" r="5" fill="var(--argo)"/>
+              <text x="150" y="128" text-anchor="middle" class="m">2 × IR, facing down</text>
+              <rect x="122" y="140" width="56" height="26" rx="4" class="box"/><text x="150" y="157" text-anchor="middle">Pico</text>
+            </svg>
+            <figcaption><span>Figure 6. Top view, sensor placement approximate</span></figcaption>
+          </figure>
+        </div>
+        <figure class="media tall" data-src="media/nav-robot.mp4" data-kind="video" data-label="Navigation robot video"></figure>
+      </article>
+
+      <article class="tile">
+        <p class="ctx">Personal fork</p>
+        <h3>Velxio simulator</h3>
+        <p>I forked the open-source Velxio electronics simulator and added the features I needed, building them with Claude Code. It's what I used to simulate the SipSure circuit.</p>
+        <div class="window" style="margin-top:8px">
+          <div class="bar"><i></i><i></i><i></i><span>Velxio</span></div>
+          <figure class="media" data-src="media/velxio-demo.mp4" data-kind="video" data-label="Velxio screen recording"></figure>
+        </div>
+      </article>
+
+      <article class="tile">
+        <p class="ctx">Design Thinking course</p>
+        <h3>VayuBox</h3>
+        <p>A room air purifier with a HEPA filter stack and an enclosure we designed. We checked it with PM2.5 readings to see if it actually cleaned the air.</p>
+        <div class="pair">
+          <figure class="media square" data-src="media/vayubox-1.jpg" data-label="VayuBox photo 1"></figure>
+          <figure class="media square" data-src="media/vayubox-2.jpg" data-label="VayuBox photo 2"></figure>
+        </div>
+      </article>
+
+      <article class="tile">
+        <p class="ctx">IIT Bombay, 2026–27</p>
+        <h3>e-Yantra</h3>
+        <p>Two themes this year. On Khoj-o-Drone I handle the PID and actuator control that keeps a simulated drone at a set height, in ROS 2 and MuJoCo. On Niti Vahan, Divam Gupta and I are working on lane keeping for an Ackermann-steered car in CoppeliaSim.</p>
+      </article>
+
+      <article class="tile">
+        <p class="ctx">Personal project</p>
+        <h3>Video pipeline</h3>
+        <p>A Python script that takes a written script, voices it with Kokoro TTS, adds captions and renders a short video with FFmpeg.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Leadership -->
+<section class="band" id="leadership" aria-labelledby="t-lead">
+  <div class="in">
+    <h2 class="title" id="t-lead">Leadership and events</h2>
+    <div class="rows">
+      <div class="row"><span class="when">Fall 2026</span><div><h4>Office of Global Engagements</h4><p>Moderated partner-university info sessions, including Penn Engineering's 4+1 programme, and wrote the brief after each. Photographed the office's events and ran its contacts database.</p></div><span class="role">Campus intern</span></div>
+      <div class="row"><span class="when">Sep 2026</span><div><h4>Trackshift</h4><p>Ran participant registration on campus for this national-level hackathon.</p></div><span class="role">Volunteer</span></div>
+      <div class="row"><span class="when">Feb 2026</span><div><h4>Medithon</h4><p>Helped manage a two-day national-level hackathon on campus: coordinated the volunteers, organised the mid-event announcements, looked after guests and photographed the event.</p></div><span class="role">Event volunteer</span></div>
+      <div class="row"><span class="when">2025–26</span><div><h4>Entrepreneurial Challenge Cup</h4><p>Anchored the six-hour event and kept the pitches on schedule.</p></div><span class="role">Host</span></div>
+      <div class="row"><span class="when">2025–26</span><div><h4>Founder's Day stall</h4><p>Ran the Centre for Entrepreneurship stall and designed an investing game visitors played on the spot.</p></div><span class="role">Stall lead</span></div>
+      <div class="row"><span class="when">2025–26</span><div><h4>Makethon, Rube Goldberg 2.0</h4><p>Led a team of five through an intra-Plaksha build competition.</p></div><span class="role">Team lead</span></div>
+      <div class="row"><span class="when">2025–26</span><div><h4>Smart India Hackathon</h4><p>Cleared the internal college round.</p></div><span class="role">Participant</span></div>
+      <div class="row"><span class="when">2025–26</span><div><h4>Young Creators League</h4><p>Gave campus tours and handled the helpdesk and judge logistics.</p></div><span class="role">Volunteer</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Creative -->
+<section class="band grey" id="creative" aria-labelledby="t-cre">
+  <div class="in">
+    <div class="intro">
+      <h2 class="title" id="t-cre">Outside the lab</h2>
+      <p class="lead">I also make short films, perform on stage, host events and design the odd website.</p>
+    </div>
+    <div class="tiles">
+      <article class="tile">
+        <p class="ctx">Second place</p>
+        <h3>CTLC Reel Competition</h3>
+        <p>Made with one teammate. We came up with the idea, directed it, shot it and edited it between the two of us.</p>
+        <figure class="media" data-src="media/ctlc-reel.jpg" data-label="CTLC reel still"></figure>
+      </article>
+      <article class="tile">
+        <p class="ctx">CTLC course</p>
+        <h3>Fast fashion documentary</h3>
+        <p>A team documentary about fast fashion. I shot most of the footage and set up the interviews, and helped with the script and direction.</p>
+        <figure class="media" data-src="media/fast-fashion-doc.mp4" data-kind="video" data-label="Documentary clip"></figure>
+      </article>
+      <article class="tile wide">
+        <div class="side">
+          <p class="ctx">Freelance, Goa</p>
+          <h3>Deepti Electricals</h3>
+          <p>A website for an electrical business in Goa.</p>
+          <div class="pair">
+            <figure class="media" data-src="media/deepti-2.jpg" data-label="Screenshot 2"></figure>
+            <figure class="media" data-src="media/deepti-3.jpg" data-label="Screenshot 3"></figure>
+          </div>
+        </div>
+        <div class="window">
+          <div class="bar"><i></i><i></i><i></i><span>Deepti Electricals</span></div>
+          <figure class="media" data-src="media/deepti-1.jpg" data-label="Website screenshot"></figure>
+        </div>
+      </article>
+      <article class="tile third">
+        <p class="ctx">Plaksha, 2025 and 2026</p>
+        <h3>Resonance</h3>
+        <p>I danced in team pieces at Resonance in both 2025 and 2026.</p>
+        <div class="pair">
+          <figure class="media tall" data-src="media/resonance-2025.jpg" data-label="Resonance 2025"></figure>
+          <figure class="media tall" data-src="media/resonance-2026.jpg" data-label="Resonance 2026"></figure>
+        </div>
+      </article>
+      <article class="tile third">
+        <p class="ctx">Ongoing</p>
+        <h3>Hosting</h3>
+        <p>I host campus events and moderate info sessions with visiting universities.</p>
+        <figure class="media" data-src="media/hosting.jpg" data-label="Hosting photo"></figure>
+      </article>
+      <article class="tile third">
+        <p class="ctx">Office of Global Engagements</p>
+        <h3>Photography</h3>
+        <p>I photograph sessions and visits for the Office of Global Engagements, from Grad 101 days to talks by visiting universities.</p>
+        <figure class="media" data-src="media/photography.jpg" data-label="Your photograph"></figure>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Toolkit and contact -->
+<section class="band dark" id="contact" aria-labelledby="t-kit">
+  <div class="in">
+    <h2 class="title" id="t-kit">What I work with</h2>
+    <div class="kit">
+      <div><h4>Microcontrollers</h4><p>ESP32-S3, Raspberry Pi Pico and Teensy 4.x, with basic STM32</p></div>
+      <div><h4>Interfaces and control</h4><p>CAN, UART, I²C, PWM, PID, quadrature encoders</p></div>
+      <div><h4>Electronics</h4><p>KiCad, Velxio, sensor calibration, bench debugging</p></div>
+      <div><h4>Robotics</h4><p>ROS 2 Humble, MuJoCo, CoppeliaSim</p></div>
+      <div><h4>Software</h4><p>C++ and Python, plus AI-assisted builds with Google Antigravity and Claude Code</p></div>
+      <div><h4>Creative</h4><p>Directing, editing, photography, hosting</p></div>
+    </div>
+    <div class="intro" style="margin-top:120px">
+      <h2 class="title">Contact</h2>
+      <p class="lead">I'm looking for internships and research work in embedded systems, robotics and creative technology. Email is the quickest way to reach me.</p>
+      <div class="ctas">
+        <span class="btn" style="user-select:all">[your email]</span>
+        <a href="#">[LinkedIn]</a>
+        <a href="#">[GitHub]</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="in"><span>Omkar Rane, Mohali and Goa</span><span>Updated November 2026</span></div></footer>
+
+<script>
+(function(){
+  /* Media slots: load media/<file>; if it isn't there yet, keep the placeholder that names the file. */
+  var cam='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>';
+  var vid='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>';
+  document.querySelectorAll('figure.media[data-src]').forEach(function(f){
+    var src=f.getAttribute('data-src'), isVid=f.getAttribute('data-kind')==='video', label=f.getAttribute('data-label')||'';
+    var ph=document.createElement('div'); ph.className='ph';
+    ph.innerHTML=(isVid?vid:cam)+'<strong></strong><small></small>';
+    ph.querySelector('strong').textContent=label; ph.querySelector('small').textContent='Add '+src;
+    f.appendChild(ph);
+    var el;
+    if(isVid){ el=document.createElement('video'); el.controls=true; el.playsInline=true; el.preload='metadata'; el.muted=true;
+      el.addEventListener('loadeddata',function(){f.classList.add('loaded')});
+    } else { el=document.createElement('img'); el.alt=label; el.loading='lazy'; el.decoding='async';
+      el.addEventListener('load',function(){f.classList.add('loaded')});
+    }
+    el.addEventListener('error',function(){ if(el.parentNode) el.parentNode.removeChild(el); });
+    el.src=src; f.insertBefore(el,ph);
+  });
+
+  /* Beer–Lambert demo: A = k·c (k chosen so A = 1 at full scale), T = 10^-A. */
+  var r=document.getElementById('conc'), liq=document.getElementById('liquid'),
+      bo=document.getElementById('beamOut'), lo=document.getElementById('lineOut'),
+      tO=document.getElementById('tOut'), aO=document.getElementById('aOut');
+  function upd(){
+    var c=r.value/100, A=c*1.0, T=Math.pow(10,-A);
+    liq.setAttribute('opacity',(0.08+0.85*c).toFixed(2));
+    bo.setAttribute('opacity',(0.25*T).toFixed(3));
+    lo.setAttribute('opacity',(0.2+0.8*T).toFixed(2));
+    tO.textContent=Math.round(T*100)+'%'; aO.textContent=A.toFixed(2);
+  }
+  r.addEventListener('input',upd);
+  document.querySelectorAll('.tests button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.tests button').forEach(function(x){x.setAttribute('aria-pressed','false')});
+      b.setAttribute('aria-pressed','true'); liq.setAttribute('fill',b.getAttribute('data-c'));
+    });
+  });
+  upd();
+})();
+</script>
+</body>
+</html>
