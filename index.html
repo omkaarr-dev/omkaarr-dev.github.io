@@ -138,6 +138,12 @@ button:focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .media.round .ph small{display:none}
 .media.loaded .ph{display:none}
 .big-media{margin-top:64px}
+.media.r32w{aspect-ratio:2000/1140}
+.media.r-enc{aspect-ratio:1217/1400;background:#fff;max-width:440px;justify-self:center;width:100%}
+.dark .window.dark-window{border-color:var(--hair-dark);background:var(--panel)}
+.dark .window.dark-window .bar{background:var(--panel-2);border-color:var(--hair-dark)}
+.media.r-enc img{object-fit:contain}
+[id]{scroll-margin-top:72px}
 .gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:14px;margin-top:64px}
 .gallery .media:first-child{grid-row:span 2;aspect-ratio:auto;min-height:360px}
 .gallery .media:not(:first-child){aspect-ratio:auto;min-height:173px}
@@ -286,7 +292,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <p class="sub">I'm a second-year engineering student at Plaksha. I mostly build electronics and small robots, and I usually end up filming them too.</p>
     <div class="ctas">
       <a class="btn" href="#sipsure">Projects</a>
-      <a href="#contact">Contact me</a>
+      <a href="#get-in-touch">Contact me</a>
     </div>
     <div class="facts">
       <span><b>B.Tech</b> at Plaksha University, class of 2029</span>
@@ -318,7 +324,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="split">
       <div class="copy">
         <h3>How it measures</h3>
-        <p>The reagent changes the sample's colour, and the more contaminant there is, the deeper the colour gets. We shine light through the cuvette and the photodiode measures how much makes it out the other side. From that we get absorbance, and the calibration curve we made in the lab turns it into mg/L.</p>
+        <p>The reagent changes the sample's colour, and the more contaminant there is, the deeper the colour gets. We shine light through the cuvette and the photodiode measures how much makes it out the other side. From that we get absorbance, and the calibration curve we made in the lab turns it into mg/L. For chromium we made up ten standards from 0 to 10 ppm, and absorbance came out in a straight line with R² = 0.998.</p>
         <p>Try the slider. A darker sample lets less light through, and absorbance goes up in a straight line with concentration.</p>
       </div>
       <figure class="plate lab" style="color:var(--on-dark)">
@@ -388,12 +394,12 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="copy">
         <h3>Why two boards</h3>
         <p>The main ESP32-S3 does the measuring and runs the 1.3-inch OLED and buttons. A second ESP32-S3 with a camera photographs the same cuvette against a white backlight, so each reading comes with a picture we can check it against. Readings go to the app with a location attached, and we plan to send them to the government's water-quality database.</p>
-        <p>Before building anything I simulated the circuit in my own fork of the <b>Velxio</b> simulator.</p>
+        <p>The LED runs from a constant-current driver, so the light going through the sample is the same on every reading.</p>
         <div class="chips"><span>ESP32-S3</span><span>Arduino C++</span><span>OPT101</span><span>ADS1115</span><span>UART</span><span>I²C</span></div>
       </div>
       <figure class="plate" style="color:var(--on-dark)">
         <div class="scroll">
-        <svg class="dw" viewBox="0 0 520 240" role="img" aria-label="System: the main ESP32-S3 reads the ADS1115 over I2C, drives the RGB LED with PWM, runs the OLED and buttons, talks to the camera ESP32-S3 over UART, and sends geotagged readings to the SipSure app.">
+        <svg class="dw" viewBox="0 0 520 240" role="img" aria-label="System: the main ESP32-S3 reads the ADS1115 over I2C, drives the LED with a constant current, runs the OLED and buttons, talks to the camera ESP32-S3 over UART, and sends geotagged readings to the SipSure app.">
           <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
           <rect x="185" y="80" width="150" height="80" rx="12" fill="var(--water)" opacity=".14"/>
           <rect x="185" y="80" width="150" height="80" rx="12" fill="none" stroke="var(--water)" stroke-width="1.6"/>
@@ -404,7 +410,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <rect class="box" x="382" y="18" width="122" height="40" rx="8"/><text x="443" y="42" text-anchor="middle">ESP32-S3 camera</text>
           <rect class="box" x="382" y="182" width="122" height="40" rx="8"/><text x="443" y="206" text-anchor="middle">SipSure app</text>
           <path d="M138 38 L162 38 L162 96 L183 96" class="ln" marker-end="url(#a2)"/><text x="148" y="72" class="m">I²C</text>
-          <line x1="183" y1="120" x2="140" y2="120" class="ln" marker-end="url(#a2)"/><text x="146" y="112" class="m">PWM</text>
+          <line x1="183" y1="120" x2="140" y2="120" class="ln" marker-end="url(#a2)"/><text x="144" y="112" class="m">const. I</text>
           <path d="M183 144 L162 144 L162 202 L140 202" class="ln" marker-end="url(#a2)"/>
           <path d="M335 96 L358 96 L358 38 L380 38" class="ln" marker-end="url(#a2)"/><text x="364" y="72" class="m">UART</text>
           <path d="M335 144 L358 144 L358 202 L380 202" class="ln" marker-end="url(#a2)"/><text x="366" y="168" class="m">geotagged</text><text x="366" y="182" class="m">readings</text>
@@ -412,6 +418,31 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </div>
         <figcaption><span>Figure 3. System</span><span>Team Rano, five members</span></figcaption>
       </figure>
+    </div>
+
+    <div class="gallery">
+      <figure class="media" data-src="media/sipsure-bench.jpg" data-label="The first SipSure prototype on breadboards, with the OLED, buttons and optics holder"></figure>
+      <figure class="media" data-src="media/sipsure-optics.jpg" data-label="The 3D-printed optics holder with the green LED on"></figure>
+      <figure class="media" data-src="media/sipsure-standards.jpg" data-label="Chromium (VI) standards from 0 to 10 ppm, made up for calibration"></figure>
+    </div>
+
+    <div class="split">
+      <div class="copy">
+        <h3>Simulated first</h3>
+        <p>Before wiring anything, I built the whole circuit in my own fork of the <b>Velxio</b> simulator: the LED driver, the OPT101 and ADS1115, the buttons, the OLED, both ESP32-S3 boards and the USB-C power input. Checking the voltages and the LED current there first meant fewer surprises on the breadboard.</p>
+      </div>
+      <div class="window dark-window">
+        <div class="bar"><i></i><i></i><i></i><span>SipSure circuit, Velxio fork</span></div>
+        <figure class="media r32w" data-src="media/sipsure-sim.jpg" data-label="The full SipSure circuit in my Velxio fork, with live voltage and current readings"></figure>
+      </div>
+    </div>
+
+    <div class="split flip">
+      <div class="copy">
+        <h3>Next, the enclosure</h3>
+        <p>The plan is a small box with the screen and four buttons on top and a hinged hatch over the cuvette, so outside light stays out. The main board and the optics sit in separate bays inside.</p>
+      </div>
+      <figure class="media r-enc" data-src="media/sipsure-enclosure.jpg" data-label="Exploded view of the planned SipSure enclosure"></figure>
     </div>
   </div>
 </section>
@@ -697,7 +728,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div><h4>Creative</h4><p>Directing, editing, photography, hosting</p></div>
     </div>
     <div class="intro" style="margin-top:120px">
-      <h2 class="title">Contact</h2>
+      <h2 class="title" id="get-in-touch">Contact</h2>
       <p class="lead">I'm looking for internships and research work in embedded systems, robotics and creative technology. Email is the quickest way to reach me.</p>
       <div class="ctas">
         <button type="button" class="btn" id="mail" data-mail="omkarrane0110@gmail.com" title="Click to copy" aria-label="Copy email address omkarrane0110@gmail.com">omkarrane0110@gmail.com</button>
