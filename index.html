@@ -75,6 +75,26 @@ button:focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .dw .hot rect{transition:stroke .2s,stroke-width .2s}
 .dw .hot:hover rect,.dw .hot:focus rect,.dw .hot.sel rect{stroke:var(--water);stroke-width:2.2;opacity:1}
 .top ul a.here{opacity:1;font-weight:600}
+/* Site touches: reading progress, back to top, photo viewer, copy email, local time */
+.prog{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--ink);transform-origin:0 50%;transform:scaleX(0)}
+.totop{position:fixed;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;width:44px;height:44px;border-radius:50%;border:1px solid var(--hair);background:rgba(251,251,253,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ink);cursor:pointer;display:grid;place-items:center;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s,transform .25s}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop svg{width:18px;height:18px}
+.media.loaded img:not(.blur){cursor:zoom-in}
+.viewer{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out;opacity:0;transition:opacity .2s}
+.viewer.open{opacity:1}
+.viewer img{max-width:100%;max-height:calc(100% - 36px);object-fit:contain;border-radius:8px}
+.viewer p{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--on-dark-muted);font-size:13px;margin:0}
+.ctas button.btn{border:0;font:inherit;font-size:15px;font-weight:500;cursor:pointer}
+.band.dark .ctas .btn{background:var(--on-dark);color:var(--black)}
+.band.dark .ctas .btn:hover{background:#fff}
+.hint{display:block;font-size:12px;color:var(--on-dark-muted);margin-top:12px;min-height:1.4em;text-align:center}
+@media (prefers-reduced-motion:reduce){.totop,.viewer{transition:none}}
+.yt{position:absolute;inset:0;border:0;padding:0;background:#000 center/cover no-repeat;cursor:pointer;display:grid;place-items:center}
+.yt span{width:68px;height:48px;border-radius:14px;background:rgba(0,0,0,.7);display:grid;place-items:center;transition:background .2s}
+.yt:hover span{background:#FF0000}
+.yt svg{width:22px;height:22px;fill:#fff}
+.media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .drift{display:block;width:100%;height:auto;margin-top:12px}
 @media (max-width:520px){.phones{gap:10px}.media.phone{border-width:4px;border-radius:18px}}
 .hero h1{font-size:clamp(56px,11vw,124px);font-weight:800;line-height:.95;letter-spacing:-.025em;font-stretch:72%;text-transform:none}
@@ -197,6 +217,7 @@ figure.plate{margin:0}
 .tile{background:#fff;border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:12px;min-width:0;grid-column:span 3}
 .tile.wide{grid-column:span 6;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
 .tile.third{grid-column:span 2}
+.tile.pin .media{margin-top:auto}
 .tile h3{font-size:30px;font-weight:750;line-height:1.05;letter-spacing:-.01em;font-stretch:85%}
 .tile .ctx{font-size:14px;color:var(--muted)}
 .tile p{color:var(--muted);font-size:16px}
@@ -257,6 +278,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <li><a href="#creative">Creative</a></li>
     </ul>
   </div>
+  <div class="prog" aria-hidden="true"></div>
 </nav>
 
 <header class="hero" id="top">
@@ -378,11 +400,11 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <rect x="185" y="80" width="150" height="80" rx="12" fill="var(--water)" opacity=".14"/>
           <rect x="185" y="80" width="150" height="80" rx="12" fill="none" stroke="var(--water)" stroke-width="1.6"/>
           <text x="260" y="116" text-anchor="middle" class="b">ESP32-S3</text><text x="260" y="134" text-anchor="middle" class="m">main board</text>
-          <g class="hot" tabindex="0" data-t="The OPT101 turns the light that gets through into a voltage. The ADS1115 reads it at 16 bits over I²C."><rect class="box" x="16" y="18" width="122" height="40" rx="8"/><text x="77" y="42" text-anchor="middle">ADS1115 + OPT101</text></g>
-          <g class="hot" tabindex="0" data-t="PWM sets the colour and brightness of the light going through the cuvette."><rect class="box" x="16" y="100" width="122" height="40" rx="8"/><text x="77" y="124" text-anchor="middle">RGB LED</text></g>
-          <g class="hot" tabindex="0" data-t="The 1.3-inch OLED shows the reading on the device itself."><rect class="box" x="16" y="182" width="122" height="40" rx="8"/><text x="77" y="206" text-anchor="middle">OLED and buttons</text></g>
-          <g class="hot" tabindex="0" data-t="Photographs the same cuvette against a white backlight, so each reading comes with a picture to check it against."><rect class="box" x="382" y="18" width="122" height="40" rx="8"/><text x="443" y="42" text-anchor="middle">ESP32-S3 camera</text></g>
-          <g class="hot" tabindex="0" data-t="Readings arrive in the app with a location attached."><rect class="box" x="382" y="182" width="122" height="40" rx="8"/><text x="443" y="206" text-anchor="middle">SipSure app</text></g>
+          <rect class="box" x="16" y="18" width="122" height="40" rx="8"/><text x="77" y="42" text-anchor="middle">ADS1115 + OPT101</text>
+          <rect class="box" x="16" y="100" width="122" height="40" rx="8"/><text x="77" y="124" text-anchor="middle">RGB LED</text>
+          <rect class="box" x="16" y="182" width="122" height="40" rx="8"/><text x="77" y="206" text-anchor="middle">OLED and buttons</text>
+          <rect class="box" x="382" y="18" width="122" height="40" rx="8"/><text x="443" y="42" text-anchor="middle">ESP32-S3 camera</text>
+          <rect class="box" x="382" y="182" width="122" height="40" rx="8"/><text x="443" y="206" text-anchor="middle">SipSure app</text>
           <path d="M138 38 L162 38 L162 96 L183 96" class="ln" marker-end="url(#a2)"/><text x="148" y="72" class="m">I²C</text>
           <line x1="183" y1="120" x2="140" y2="120" class="ln" marker-end="url(#a2)"/><text x="146" y="112" class="m">PWM</text>
           <path d="M183 144 L162 144 L162 202 L140 202" class="ln" marker-end="url(#a2)"/>
@@ -390,7 +412,6 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <path d="M335 144 L358 144 L358 202 L380 202" class="ln" marker-end="url(#a2)"/><text x="366" y="168" class="m">geotagged</text><text x="366" y="182" class="m">readings</text>
         </svg>
         </div>
-        <p class="status" id="sysStatus" aria-live="polite">Hover or tap a part to see what it does.</p>
         <figcaption><span>Figure 3. System</span><span>Team Rano, five members</span></figcaption>
       </figure>
     </div>
@@ -422,16 +443,16 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
       <figure class="plate" style="color:var(--ink)">
         <div class="scroll">
-        <svg class="dw flow" id="argoFlow" viewBox="0 0 530 320" role="img" aria-label="Parcel flow: parcel arrives, Gemini reads the label or it falls back to manual entry, a shelf slot is assigned, the student is notified, the student's face is matched and the parcel is handed over. If not picked up in 48 hours, the student is reminded again.">
+        <svg class="dw" viewBox="0 0 530 320" role="img" aria-label="Parcel flow: parcel arrives, Gemini reads the label or it falls back to manual entry, a shelf slot is assigned, the student is notified, the student's face is matched and the parcel is handed over. If not picked up in 48 hours, the student is reminded again.">
           <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
-          <g data-n="arrive"><rect class="box" x="16" y="20" width="140" height="40" rx="20"/><text x="86" y="44" text-anchor="middle">Parcel arrives</text></g>
-          <g data-n="gemini"><rect x="190" y="20" width="140" height="40" rx="8" fill="none" stroke="var(--argo)" stroke-width="1.6"/><text x="260" y="44" text-anchor="middle">Gemini reads label</text></g>
-          <g data-n="shelf"><rect class="box" x="364" y="20" width="140" height="40" rx="8"/><text x="434" y="44" text-anchor="middle">Shelf slot assigned</text></g>
-          <g data-n="manual"><rect class="box dash" x="190" y="96" width="140" height="40" rx="8"/><text x="260" y="120" text-anchor="middle">Manual entry</text></g>
-          <g data-n="notify"><rect class="box" x="364" y="176" width="140" height="40" rx="8"/><text x="434" y="200" text-anchor="middle">Student notified</text></g>
-          <g data-n="face"><rect x="190" y="176" width="140" height="40" rx="8" fill="none" stroke="var(--argo)" stroke-width="1.6"/><text x="260" y="200" text-anchor="middle">Face match</text></g>
-          <g data-n="handed"><rect x="16" y="176" width="140" height="40" rx="20" fill="var(--argo)" opacity=".16"/><rect x="16" y="176" width="140" height="40" rx="20" fill="none" stroke="var(--argo)" stroke-width="1.4"/><text x="86" y="200" text-anchor="middle" class="b">Handed over</text></g>
-          <g data-n="late"><rect class="box dash" x="364" y="262" width="140" height="44" rx="8"/><text x="434" y="281" text-anchor="middle">Not picked up</text><text x="434" y="297" text-anchor="middle" class="m">after 48 hours</text></g>
+          <rect class="box" x="16" y="20" width="140" height="40" rx="20"/><text x="86" y="44" text-anchor="middle">Parcel arrives</text>
+          <rect x="190" y="20" width="140" height="40" rx="8" fill="none" stroke="var(--argo)" stroke-width="1.6"/><text x="260" y="44" text-anchor="middle">Gemini reads label</text>
+          <rect class="box" x="364" y="20" width="140" height="40" rx="8"/><text x="434" y="44" text-anchor="middle">Shelf slot assigned</text>
+          <rect class="box dash" x="190" y="96" width="140" height="40" rx="8"/><text x="260" y="120" text-anchor="middle">Manual entry</text>
+          <rect class="box" x="364" y="176" width="140" height="40" rx="8"/><text x="434" y="200" text-anchor="middle">Student notified</text>
+          <rect x="190" y="176" width="140" height="40" rx="8" fill="none" stroke="var(--argo)" stroke-width="1.6"/><text x="260" y="200" text-anchor="middle">Face match</text>
+          <rect x="16" y="176" width="140" height="40" rx="20" fill="var(--argo)" opacity=".16"/><rect x="16" y="176" width="140" height="40" rx="20" fill="none" stroke="var(--argo)" stroke-width="1.4"/><text x="86" y="200" text-anchor="middle" class="b">Handed over</text>
+          <rect class="box dash" x="364" y="262" width="140" height="44" rx="8"/><text x="434" y="281" text-anchor="middle">Not picked up</text><text x="434" y="297" text-anchor="middle" class="m">after 48 hours</text>
           <line x1="156" y1="40" x2="188" y2="40" class="ln" marker-end="url(#a3)"/>
           <line x1="330" y1="40" x2="362" y2="40" class="ln" marker-end="url(#a3)"/>
           <line x1="260" y1="60" x2="260" y2="94" class="ln dash" marker-end="url(#a3)"/><text x="268" y="82" class="m">if it fails</text>
@@ -443,12 +464,6 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <path d="M504 284 L518 284 L518 196 L506 196" class="ln dash" marker-end="url(#a3)"/><text x="508" y="246" class="m" text-anchor="end">remind</text>
         </svg>
         </div>
-        <div class="pills" id="argoBtns" role="group" aria-label="Follow a parcel">
-          <button type="button" data-p="ok" aria-pressed="false">Label read</button>
-          <button type="button" data-p="manual" aria-pressed="false">Label unreadable</button>
-          <button type="button" data-p="late" aria-pressed="false">Not collected</button>
-        </div>
-        <p class="status" id="argoStatus" aria-live="polite">Follow a parcel through the system.</p>
         <figcaption><span>Figure 4. Parcel flow at Gate 1</span></figcaption>
       </figure>
     </div>
@@ -506,19 +521,9 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <rect x="358" y="88" width="60" height="22" rx="4" class="box dash"/><text x="388" y="103" text-anchor="middle" class="m">transceiver</text>
             <line x1="388" y1="76" x2="388" y2="88" class="ln"/><line x1="378" y1="110" x2="378" y2="130" class="ln-s"/><line x1="398" y1="110" x2="398" y2="160" class="ln-s"/>
           </g>
-          <rect id="rx0" class="rx" x="66" y="20" width="118" height="60" rx="13" fill="none" stroke="var(--go)" stroke-width="2.5"/>
-          <rect id="rx1" class="rx" x="201" y="20" width="118" height="60" rx="13" fill="none" stroke="var(--go)" stroke-width="2.5"/>
-          <rect id="rx2" class="rx" x="336" y="20" width="104" height="60" rx="13" fill="none" stroke="var(--go)" stroke-width="2.5"/>
-          <g id="pk" opacity="0"><circle id="pkL" r="6" cy="130" fill="var(--go)"/><circle id="pkR" r="6" cy="130" fill="var(--go)"/><circle id="pkL2" r="6" cy="160" fill="var(--go)"/><circle id="pkR2" r="6" cy="160" fill="var(--go)"/></g>
         </svg>
         </div>
-        <div class="pills" id="canBtns" role="group" aria-label="Send a CAN message">
-          <button type="button" data-from="0" aria-pressed="false">Teensy sends</button>
-          <button type="button" data-from="1" aria-pressed="false">Board 2 sends</button>
-          <button type="button" data-from="both" aria-pressed="false">Both at once</button>
-        </div>
-        <p class="status" id="canStatus" aria-live="polite">Pick a board to send a message.</p>
-        <figcaption><span>Figure 5. CAN bus on the rover, simplified. IDs are examples</span><span>Terminated with 120 Ω at each end</span></figcaption>
+        <figcaption><span>Figure 5. CAN bus on the rover, simplified</span><span>Terminated with 120 Ω at each end</span></figcaption>
       </figure>
     </div>
   </div>
@@ -551,17 +556,6 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
               <text x="150" y="128" text-anchor="middle" class="m">2 × IR, facing down</text>
               <rect x="122" y="140" width="56" height="26" rx="4" class="box"/><text x="150" y="157" text-anchor="middle">Pico</text>
             </svg>
-            <svg class="drift dw" viewBox="0 0 300 90" role="img" aria-label="A straight run, with and without encoder feedback">
-              <line x1="20" y1="45" x2="280" y2="45" class="ln dash"/>
-              <rect x="276" y="25" width="4" height="40" fill="currentColor" opacity=".5"/>
-              <path id="drPath" d="M20 45 L280 45" fill="none" stroke="var(--go)" stroke-width="2.5" stroke-linecap="round"/>
-              <circle id="drBot" cx="20" cy="45" r="7" fill="var(--ink)"/>
-            </svg>
-            <div class="pills" id="drBtns" role="group" aria-label="Drive mode">
-              <button type="button" data-mode="open" aria-pressed="false">First version</button>
-              <button type="button" data-mode="enc" aria-pressed="true">With encoders</button>
-            </div>
-            <p class="status" id="drStatus" aria-live="polite">Encoders let the Pico match both wheel speeds, so it holds a straight line.</p>
             <figcaption><span>Figure 6. Top view, sensor placement approximate</span></figcaption>
           </figure>
         </div>
@@ -628,32 +622,25 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p class="lead">I also make short films, perform on stage, host events and design the odd website.</p>
     </div>
     <div class="tiles">
-      <article class="tile">
+      <article class="tile wide">
+        <div class="side">
+          <p class="ctx">CTLC course</p>
+          <h3>Fast fashion documentary</h3>
+          <p>A team documentary about fast fashion. I shot most of the footage and set up the interviews, and helped with the script and direction.</p>
+        </div>
+        <figure class="media" data-src="media/fast-fashion-doc.mp4" data-poster="media/fast-fashion-doc-poster.jpg" data-kind="video" data-label="Documentary clip"></figure>
+      </article>
+      <article class="tile pin">
         <p class="ctx">Second place</p>
         <h3>CTLC Reel Competition</h3>
         <p>Made with one teammate. We came up with the idea, directed it, shot it and edited it between the two of us.</p>
         <figure class="media r45" data-src="media/ctlc-reel.jpg" data-label="Receiving second prize at the CTLC Reel Challenge 2026"></figure>
       </article>
-      <article class="tile">
-        <p class="ctx">CTLC course</p>
-        <h3>Fast fashion documentary</h3>
-        <p>A team documentary about fast fashion. I shot most of the footage and set up the interviews, and helped with the script and direction.</p>
-        <figure class="media" data-src="media/fast-fashion-doc.mp4" data-poster="media/fast-fashion-doc-poster.jpg" data-kind="video" data-label="Documentary clip"></figure>
-      </article>
-      <article class="tile wide">
-        <div class="side">
-          <p class="ctx">Freelance, Goa</p>
-          <h3>Deepti Electricals</h3>
-          <p>A website for an electrical business in Goa.</p>
-          <div class="pair">
-            <figure class="media" data-src="media/deepti-2.jpg" data-label="Screenshot 2"></figure>
-            <figure class="media" data-src="media/deepti-3.jpg" data-label="Screenshot 3"></figure>
-          </div>
-        </div>
-        <div class="window">
-          <div class="bar"><i></i><i></i><i></i><span>Deepti Electricals</span></div>
-          <figure class="media" data-src="media/deepti-1.jpg" data-label="Website screenshot"></figure>
-        </div>
+      <article class="tile pin">
+        <p class="ctx">Office of Global Engagements</p>
+        <h3>Photography</h3>
+        <p>I photograph sessions and visits for the Office of Global Engagements, from Grad 101 days to talks by visiting universities.</p>
+        <figure class="media r45" data-src="media/photography.jpg" data-label="Panel discussion photographed for the Office of Global Engagements"></figure>
       </article>
       <article class="tile wide hosting">
         <div class="side">
@@ -669,20 +656,31 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </div>
         <figure class="media r32 hg" data-src="media/hosting-1.jpg" data-label="Co-hosting at the podium"></figure>
       </article>
-      <article class="tile">
-        <p class="ctx">Plaksha, 2025 and 2026</p>
-        <h3>Resonance</h3>
-        <p>I danced in team pieces at Resonance in both 2025 and 2026.</p>
-        <div class="stack">
+      <article class="tile wide">
+        <div class="side">
+          <p class="ctx">Plaksha, 2025 and 2026</p>
+          <h3>Resonance</h3>
+          <p>I danced in team pieces at Resonance in both 2025 and 2026.</p>
+        </div>
+        <div class="pair">
           <figure class="media r32" data-src="media/resonance-2025.jpg" data-label="Performing at Resonance 2025"></figure>
-          <figure class="media" data-src="media/resonance-2026.jpg" data-label="Performing at Resonance 2026"></figure>
+          <figure class="media r32" data-src="media/resonance-2026.jpg" data-label="Performing at Resonance 2026"></figure>
         </div>
       </article>
-      <article class="tile">
-        <p class="ctx">Office of Global Engagements</p>
-        <h3>Photography</h3>
-        <p>I photograph sessions and visits for the Office of Global Engagements, from Grad 101 days to talks by visiting universities.</p>
-        <figure class="media r34" data-src="media/photography.jpg" data-label="Panel discussion photographed for the Office of Global Engagements"></figure>
+      <article class="tile wide">
+        <div class="side">
+          <p class="ctx">Freelance, Goa</p>
+          <h3>Deepti Electricals</h3>
+          <p>A website for an electrical business in Goa.</p>
+          <div class="pair">
+            <figure class="media" data-src="media/deepti-2.jpg" data-label="Screenshot 2"></figure>
+            <figure class="media" data-src="media/deepti-3.jpg" data-label="Screenshot 3"></figure>
+          </div>
+        </div>
+        <div class="window">
+          <div class="bar"><i></i><i></i><i></i><span>Deepti Electricals</span></div>
+          <figure class="media" data-src="media/deepti-1.jpg" data-label="Website screenshot"></figure>
+        </div>
       </article>
     </div>
   </div>
@@ -704,15 +702,17 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <h2 class="title">Contact</h2>
       <p class="lead">I'm looking for internships and research work in embedded systems, robotics and creative technology. Email is the quickest way to reach me.</p>
       <div class="ctas">
-        <a class="btn" href="mailto:omkarrane0110@gmail.com">omkarrane0110@gmail.com</a>
+        <button type="button" class="btn" id="mail" data-mail="omkarrane0110@gmail.com" title="Copy email address">omkarrane0110@gmail.com</button>
         <a href="https://www.linkedin.com/in/omkar-bhupesh-rane-66b61338a" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://github.com/omkaarr-dev" target="_blank" rel="noopener">GitHub</a>
       </div>
+      <span class="hint" id="mailHint" aria-live="polite">Click the address to copy it</span>
     </div>
   </div>
 </section>
 
-<footer><div class="in"><span>Omkar Rane, Mohali and Goa</span><span>Updated November 2026</span></div></footer>
+<footer><div class="in"><span>Omkar Rane, Mohali and Goa<span id="clock"></span></span><span>Updated November 2026</span></div></footer>
+<button type="button" class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <script>
 (function(){
@@ -726,6 +726,12 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   }
   var cam='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>';
   var vid='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>';
+  document.querySelectorAll('figure.media[data-youtube]').forEach(function(f){
+    var id=f.getAttribute('data-youtube'), b=document.createElement('button'); b.type='button'; b.className='yt'; b.setAttribute('aria-label','Play '+(f.getAttribute('data-label')||'video'));
+    b.style.backgroundImage='url(https://i.ytimg.com/vi/'+id+'/hqdefault.jpg)'; b.innerHTML='<span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
+    b.addEventListener('click',function(){ var i=document.createElement('iframe'); i.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0'; i.title=f.getAttribute('data-label')||'Video'; i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen'; i.allowFullscreen=true; b.replaceWith(i); });
+    f.appendChild(b); f.classList.add('loaded');
+  });
   document.querySelectorAll('figure.media[data-src]').forEach(function(f){
     var src=f.getAttribute('data-src'), isVid=f.getAttribute('data-kind')==='video', label=f.getAttribute('data-label')||'';
     var ph=document.createElement('div'); ph.className='ph'; f.appendChild(ph);
@@ -782,82 +788,6 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     });
   }
 
-  /* CAN bus: a message spreads from the sender along both wires; every other board sees it. */
-  var taps=[125,260,388], names=['Teensy','Board 2','More boards'], ids=['0x120','0x0A0'];
-  var pk=document.getElementById('pk'), cs=document.getElementById('canStatus'), busy=false;
-  function sendFrom(i,done){
-    var L=[document.getElementById('pkL'),document.getElementById('pkL2')], Rr=[document.getElementById('pkR'),document.getElementById('pkR2')];
-    var x0=taps[i], seen={}; seen[i]=1;
-    function mark(x){ taps.forEach(function(t,k){ if(!seen[k] && Math.abs(t-x)<8){ seen[k]=1; var r=document.getElementById('rx'+k); r.classList.add('on'); setTimeout(function(){r.classList.remove('on')},900); } }); }
-    if(still){ taps.forEach(function(t,k){ if(k!==i) mark(t); }); setTimeout(done,600); return; }
-    pk.setAttribute('opacity','1'); var t0=null, D=900;
-    function step(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/D);
-      var xl=x0-(x0-40)*p, xr=x0+(452-x0)*p;
-      L.forEach(function(c){c.setAttribute('cx',xl)}); Rr.forEach(function(c){c.setAttribute('cx',xr)});
-      mark(xl); mark(xr);
-      if(p<1) requestAnimationFrame(step); else { pk.setAttribute('opacity','0'); done(); } }
-    requestAnimationFrame(step);
-  }
-  document.querySelectorAll('#canBtns button').forEach(function(b){
-    b.addEventListener('click',function(){
-      if(busy) return; busy=true;
-      document.querySelectorAll('#canBtns button').forEach(function(x){x.setAttribute('aria-pressed','false')}); b.setAttribute('aria-pressed','true');
-      var f=b.getAttribute('data-from'), end=function(){busy=false;};
-      if(f==='both'){
-        cs.textContent='Both start together. The lower ID wins arbitration, so Board 2 ('+ids[1]+') goes first and the Teensy waits.';
-        sendFrom(1,function(){ cs.textContent='Then the Teensy ('+ids[0]+') sends straight after. Nothing was lost or corrupted.'; sendFrom(0,end); });
-      } else { var i=+f; cs.textContent=names[i]+' sends ID '+ids[i]+'. Every other board hears it and keeps it only if it cares about that ID.'; sendFrom(i,end); }
-    });
-  });
-
-  /* Navigation robot: a straight run with and without encoder feedback. */
-  var dp=document.getElementById('drPath'), db=document.getElementById('drBot'), ds=document.getElementById('drStatus'), dAnim=0;
-  var paths={open:'M20 45 C 110 45, 200 50, 280 82', enc:'M20 45 L280 45'};
-  var msgs={open:'One motor is faster than the other, so it slowly pulls off the line.', enc:'Encoders let the Pico match both wheel speeds, so it holds a straight line.'};
-  function drive(mode){
-    dp.setAttribute('d',paths[mode]); ds.textContent=msgs[mode];
-    var len=dp.getTotalLength(); cancelAnimationFrame(dAnim);
-    if(still){ var e=dp.getPointAtLength(len); db.setAttribute('cx',e.x); db.setAttribute('cy',e.y); dp.style.strokeDasharray=''; return; }
-    dp.style.strokeDasharray=len; var t0=null;
-    function step(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/1400), q=dp.getPointAtLength(len*p);
-      dp.style.strokeDashoffset=len*(1-p); db.setAttribute('cx',q.x); db.setAttribute('cy',q.y);
-      if(p<1) dAnim=requestAnimationFrame(step); }
-    dAnim=requestAnimationFrame(step);
-  }
-  document.querySelectorAll('#drBtns button').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#drBtns button').forEach(function(x){x.setAttribute('aria-pressed','false')}); b.setAttribute('aria-pressed','true');
-      drive(b.getAttribute('data-mode'));
-    });
-  });
-  if(dp){ var e0=dp.getPointAtLength(dp.getTotalLength()); db.setAttribute('cx',e0.x); }
-
-  /* ARGO: follow a parcel through the flow, one step at a time. */
-  var flow=document.getElementById('argoFlow'), aS=document.getElementById('argoStatus'), aT=[];
-  var routes={
-    ok:{n:['arrive','gemini','shelf','notify','face','handed'],m:'Gemini reads the label, the parcel gets a shelf slot, the student is notified and collects it with a face match.'},
-    manual:{n:['arrive','gemini','manual','shelf','notify','face','handed'],m:'If Gemini can\'t read the label, the guard types it in, and the rest of the flow is the same.'},
-    late:{n:['arrive','gemini','shelf','notify','late','notify','face','handed'],m:'If nobody collects it within 48 hours, the student is reminded again until they do.'}
-  };
-  document.querySelectorAll('#argoBtns button').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#argoBtns button').forEach(function(x){x.setAttribute('aria-pressed','false')}); b.setAttribute('aria-pressed','true');
-      aT.forEach(clearTimeout); aT=[]; var r=routes[b.getAttribute('data-p')];
-      flow.classList.add('run'); flow.querySelectorAll('g[data-n]').forEach(function(g){g.classList.remove('on','cur')});
-      aS.textContent=r.m;
-      r.n.forEach(function(n,i){ aT.push(setTimeout(function(){
-        flow.querySelectorAll('g.cur').forEach(function(g){g.classList.remove('cur')});
-        var g=flow.querySelector('g[data-n="'+n+'"]'); g.classList.add('on','cur');
-      }, still?0:i*420)); });
-    });
-  });
-
-  /* SipSure system: each part explains itself on hover, focus or tap. */
-  var sS=document.getElementById('sysStatus');
-  document.querySelectorAll('.dw .hot').forEach(function(g){
-    function show(){ document.querySelectorAll('.dw .hot.sel').forEach(function(x){x.classList.remove('sel')}); g.classList.add('sel'); sS.textContent=g.getAttribute('data-t'); }
-    g.addEventListener('mouseenter',show); g.addEventListener('focus',show); g.addEventListener('click',show);
-  });
 
   /* Nav: mark the section you're reading. */
   var navA={}; document.querySelectorAll('.top ul a').forEach(function(a){ navA[a.getAttribute('href').slice(1)]=a; });
@@ -866,6 +796,41 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       Object.keys(navA).forEach(function(k){navA[k].classList.remove('here')}); navA[e.target.id].classList.add('here'); } }); },{rootMargin:'-45% 0px -50% 0px'});
     Object.keys(navA).forEach(function(k){ var el=document.getElementById(k); if(el) io.observe(el); });
   }
+
+  /* Reading progress under the nav, and the back-to-top button. */
+  var prog=document.querySelector('.prog'), top=document.getElementById('totop'), ticking=false;
+  function onScroll(){ ticking=false; var h=document.documentElement, max=h.scrollHeight-h.clientHeight, y=h.scrollTop||document.body.scrollTop;
+    if(prog) prog.style.transform='scaleX('+(max>0?y/max:0)+')'; top.classList.toggle('show',y>900); }
+  window.addEventListener('scroll',function(){ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } },{passive:true}); onScroll();
+  top.addEventListener('click',function(){ window.scrollTo({top:0,behavior:still?'auto':'smooth'}); });
+
+  /* Photo viewer: click a photo to see it whole. Esc or a click closes it. */
+  var lastFocus=null;
+  document.addEventListener('click',function(e){
+    var im=e.target.closest&&e.target.closest('.media.loaded img'); if(!im || im.classList.contains('blur')) return;
+    lastFocus=document.activeElement;
+    var v=document.createElement('div'); v.className='viewer'; v.setAttribute('role','dialog'); v.setAttribute('aria-modal','true'); v.setAttribute('aria-label',im.alt||'Photo'); v.tabIndex=-1;
+    var big=document.createElement('img'); big.src=im.currentSrc||im.src; big.alt=im.alt; v.appendChild(big);
+    if(im.alt){ var cap=document.createElement('p'); cap.textContent=im.alt; v.appendChild(cap); }
+    function close(){ v.remove(); document.removeEventListener('keydown',key); document.body.style.overflow=''; if(lastFocus) lastFocus.focus(); }
+    function key(ev){ if(ev.key==='Escape') close(); }
+    v.addEventListener('click',close); document.addEventListener('keydown',key);
+    document.body.appendChild(v); document.body.style.overflow='hidden'; v.focus(); requestAnimationFrame(function(){v.classList.add('open')});
+  });
+
+  /* Copy the email address. */
+  var mail=document.getElementById('mail'), mh=document.getElementById('mailHint');
+  if(mail) mail.addEventListener('click',function(){
+    var addr=mail.getAttribute('data-mail');
+    function ok(){ mh.textContent='Copied. Paste it into your email app.'; setTimeout(function(){mh.textContent='Click the address to copy it';},2500); }
+    function fallback(){ var r=document.createRange(); r.selectNodeContents(mail); var sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); mh.textContent='Selected. Press Ctrl+C or Cmd+C to copy.'; }
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(addr).then(ok,fallback); else fallback();
+  });
+
+  /* Local time in India, in the footer. */
+  var clock=document.getElementById('clock');
+  function tick(){ try{ clock.textContent=', where it\'s '+new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'numeric',minute:'2-digit'})+' now'; }catch(e){} }
+  tick(); setInterval(tick,30000);
 })();
 </script>
 </body>
