@@ -3,403 +3,230 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Omkar Rane</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Omkar Rane, engineering student at Plaksha University. Electronics, robots and the occasional film.">
+<title>Omkar Rane, logbook</title>
+<meta name="description" content="Omkar Rane, engineering student at Plaksha University. A logbook of the things I've built, broken and filmed.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: Apple-style product site. Full-width bands alternate paper and pure black. Each flagship project gets a
-   centred title, a large media slot, a spec strip and left-aligned text beside an engineering drawing.
-   One bold moment: the interactive SipSure cuvette. Single committed look (like apple.com), not theme-switching. */
+/* Engineering logbook on graph paper. Entries are dated in the margin, photos are taped in, drawings are pasted in as printouts.
+   Mono type is only for dates and part numbers. */
 :root{
-  --paper:#FBFBFD; --grey:#F2F3F5; --ink:#1D1D1F; --muted:#6E6E73; --hair:#D2D2D7;
-  --black:#000000; --panel:#1C1C1E; --panel-2:#2C2C2E; --on-dark:#F5F5F7; --on-dark-muted:#A1A1A6; --hair-dark:#38383A;
-  --link:#0066CC; --link-dark:#2997FF;
-  --water:#1FA3C8; --argo:#E5782F; --mars:#E0532E; --go:#30D158;
-  --font:"Archivo", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --paper:#F6F9F5; --minor:#E2EBE3; --major:#CCDCCE; --ink:#1B2425; --muted:#56635F; --pen:#1D4E9E; --rule:#D2483F;
+  --tape:rgba(236,224,168,.78); --card:#FFFFFF; --edge:#D4DDD5;
+  --sans:"Archivo",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --m:168px; /* margin column */
+  --water:var(--pen); --argo:var(--rule); --mars:var(--rule); --go:#2E8B57; --on-dark:var(--pen); --grey:#EEF3EF;
   color-scheme:light;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
-a{color:var(--link);text-decoration:none}
-a:hover{text-decoration:underline}
-:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:4px}
-h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:650}
-p{margin:0}
-.in{max-width:1060px;margin:0 auto;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;
+  background-image:
+    linear-gradient(var(--major) 1px,transparent 1px),linear-gradient(90deg,var(--major) 1px,transparent 1px),
+    linear-gradient(var(--minor) 1px,transparent 1px),linear-gradient(90deg,var(--minor) 1px,transparent 1px);
+  background-size:120px 120px,120px 120px,24px 24px,24px 24px;background-position:-1px -1px}
+a{color:var(--pen);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--pen);outline-offset:3px}
+img{max-width:100%}
+[id]{scroll-margin-top:64px}
+.pn,.d,.mono{font-family:var(--mono);font-size:.86em;letter-spacing:0}
+.pn{background:rgba(255,255,255,.75);border:1px solid var(--edge);border-radius:4px;padding:0 5px;white-space:nowrap}
 
-/* Nav */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(251,251,253,.85)}
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(251,251,253,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.07)}
-.top .in{display:flex;align-items:center;justify-content:space-between;height:48px;gap:16px}
-.top .name{font-weight:650;font-size:17px;color:var(--ink);letter-spacing:-.01em}
-.top ul{display:flex;gap:24px;list-style:none;margin:0;padding:0;font-size:13px}
-.top ul a{color:var(--ink);opacity:.75}
-.top ul a:hover{opacity:1;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 
-/* Hero */
-.hero{padding-block:80px 64px;text-align:center}
-.media.portrait{width:156px;margin:0 auto 32px}
-.media.r45{aspect-ratio:4/5}.media.r34{aspect-ratio:3/4}.media.r32{aspect-ratio:3/2}
-.phones{display:flex;justify-content:center;gap:32px;margin-top:64px}
-.media.phone{aspect-ratio:1080/2376;width:min(240px,30%);border-radius:30px;border:7px solid #1D1D1F;background:#1D1D1F;box-shadow:0 30px 60px -30px rgba(0,0,0,.35)}
-.stack{display:grid;gap:12px}
-.tile.wide.solo{grid-template-columns:1fr}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
-.thumbs button{position:relative;padding:0;border:0;border-radius:12px;overflow:hidden;aspect-ratio:1/1;cursor:pointer;background:var(--grey);opacity:.55;transition:opacity .2s}
-.thumbs button:hover{opacity:.85}
-.thumbs button[aria-pressed=true]{opacity:1;box-shadow:0 0 0 2px #fff,0 0 0 4px var(--ink)}
-.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
-.media.hg{background:#1D1D1F}
-.media.hg .blur{position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:cover;filter:blur(24px) brightness(.6)}
-.media.hg img.main{object-fit:contain;transition:opacity .25s}
-.media.hg img.main.fade{opacity:0}
-.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.pills button{font:inherit;font-size:13px;padding:6px 12px;border-radius:980px;border:1px solid var(--hair);background:transparent;color:var(--ink);cursor:pointer}
-.pills button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.dark .pills button{border-color:var(--hair-dark);color:var(--on-dark)}
-.dark .pills button[aria-pressed=true]{background:var(--on-dark);color:var(--black);border-color:var(--on-dark)}
-.status{font-size:13px;margin-top:10px;min-height:2.6em;opacity:.8}
-button:focus-visible{outline:2px solid var(--link);outline-offset:2px}
-.dw .rx{transition:opacity .3s;opacity:0}
-.dw .rx.on{opacity:1}
-.flow g[data-n]{transition:opacity .3s}
-.flow.run g[data-n]{opacity:.22}
-.flow.run g[data-n].on{opacity:1}
-.flow g.cur rect{stroke-width:2.5}
-.dw .hot{cursor:pointer;outline:none;transition:opacity .2s}
-.dw .hot rect{transition:stroke .2s,stroke-width .2s}
-.dw .hot:hover rect,.dw .hot:focus rect,.dw .hot.sel rect{stroke:var(--water);stroke-width:2.2;opacity:1}
-.top ul a.here{opacity:1;font-weight:600}
-/* Site touches: reading progress, back to top, photo viewer, copy email, local time */
-.prog{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--ink);transform-origin:0 50%;transform:scaleX(0)}
-.totop{position:fixed;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;width:44px;height:44px;border-radius:50%;border:1px solid var(--hair);background:rgba(251,251,253,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ink);cursor:pointer;display:grid;place-items:center;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s,transform .25s}
-.totop.show{opacity:1;transform:none;pointer-events:auto}
-.totop svg{width:18px;height:18px}
-.media.loaded img:not(.blur){cursor:zoom-in}
-.viewer{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out;opacity:0;transition:opacity .2s}
-.viewer.open{opacity:1}
-.viewer img{max-width:100%;max-height:calc(100% - 36px);object-fit:contain;border-radius:8px}
-.viewer p{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--on-dark-muted);font-size:13px;margin:0}
-.ctas button.btn{border:0;font:inherit;font-size:15px;font-weight:500;cursor:pointer}
-.band.dark .ctas .btn{background:var(--on-dark);color:var(--black)}
-.band.dark .ctas .btn:hover{background:#fff}
-@media (prefers-reduced-motion:reduce){.totop,.viewer{transition:none}}
-.yt{position:absolute;inset:0;border:0;padding:0;background:#000 center/cover no-repeat;cursor:pointer;display:grid;place-items:center}
-.yt span{width:68px;height:48px;border-radius:14px;background:rgba(0,0,0,.7);display:grid;place-items:center;transition:background .2s}
-.yt:hover span{background:#FF0000}
-.yt svg{width:22px;height:22px;fill:#fff}
-.media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-@media (max-width:520px){.phones{gap:10px}.media.phone{border-width:4px;border-radius:18px}}
-.hero h1{font-size:clamp(56px,11vw,124px);font-weight:800;line-height:.95;letter-spacing:-.025em;font-stretch:72%;text-transform:none}
-.hero .sub{font-size:clamp(21px,2.8vw,28px);font-weight:500;color:var(--muted);max-width:28ch;margin:20px auto 0;line-height:1.22;letter-spacing:-.01em}
-.ctas{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:32px;flex-wrap:wrap;font-size:17px}
-.btn{display:inline-block;background:var(--link);color:#fff;padding:11px 22px;border-radius:980px;font-size:15px;font-weight:500}
-.btn:hover{text-decoration:none;background:#0077ED}
-.facts{margin-top:56px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.facts span{font-size:14px;color:var(--muted);background:var(--grey);padding:7px 14px;border-radius:980px}
-.facts b{color:var(--ink);font-weight:600}
+/* Top bar: a plain index, like the tabs on a notebook */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(246,249,245,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--major)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:41;background:var(--paper)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:52px}
+.bar b{white-space:nowrap;font-weight:700;font-stretch:80%;font-size:19px;letter-spacing:-.005em}
+.bar nav{min-width:0;display:flex;gap:20px;font-size:14px;overflow-x:auto;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{color:var(--muted);text-decoration:none;white-space:nowrap}
+.bar nav a:hover,.bar nav a.here{color:var(--ink)}
+.bar nav a.here{box-shadow:inset 0 -2px 0 var(--rule)}
 
-/* Bands */
-.band{padding-block:112px}
-.band.dark{background:var(--black);color:var(--on-dark)}
-.band.grey{background:var(--grey)}
-.band.dark a{color:var(--link-dark)}
-.band.dark .ctas a{color:var(--on-dark);padding:11px 22px;border-radius:980px;border:1px solid var(--hair-dark);font-size:15px;font-weight:500;transition:background .2s,border-color .2s}
-.band.dark .ctas a:hover{text-decoration:none;border-color:var(--on-dark-muted)}
-.band.dark .ctas a.btn{background:var(--on-dark);color:var(--black);border-color:var(--on-dark)}
-.band.dark .ctas a.btn:hover{background:#fff}
-.band.dark .ctas a:focus-visible{outline-color:var(--on-dark)}
-.intro{text-align:center}
-.title{font-size:clamp(50px,9vw,104px);font-weight:800;line-height:.98;letter-spacing:-.02em;font-stretch:72%}
-.tagline{font-size:clamp(24px,3.4vw,36px);font-weight:600;line-height:1.12;letter-spacing:-.01em;margin:12px auto 0;max-width:22ch}
-.lead{font-size:19px;line-height:1.5;max-width:58ch;margin:24px auto 0;color:var(--muted)}
-.dark .lead{color:var(--on-dark-muted)}
-.status{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:14px;color:var(--muted)}
-.dark .status{color:var(--on-dark-muted)}
-.status i{width:8px;height:8px;border-radius:50%;background:var(--go);box-shadow:0 0 0 4px rgba(48,209,88,.18)}
-.status.done i{background:var(--muted);box-shadow:none}
+/* Page: margin column with dates, a red margin rule, then the entries */
+.page{display:grid;grid-template-columns:var(--m) minmax(0,1fr);position:relative}
+.page::before{content:"";position:absolute;top:0;bottom:0;left:calc(var(--m) - 14px);width:1.5px;background:var(--rule);opacity:.7}
 
-/* Media slots: a photo or video loads from media/…; until it exists, a placeholder names the file to add. */
-.media{position:relative;margin:0;border-radius:24px;overflow:hidden;background:var(--grey);aspect-ratio:16/9;max-width:100%}
-.dark .media{background:var(--panel)}
-.media.square{aspect-ratio:1/1}.media.tall{aspect-ratio:4/5}.media.round{border-radius:50%;aspect-ratio:1/1}
-.media img,.media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.media .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px;color:var(--muted)}
-.dark .media .ph{color:var(--on-dark-muted)}
-.media .ph svg{width:30px;height:30px;opacity:.65;margin-bottom:4px}
-.media .ph strong{font-size:15px;font-weight:600;color:var(--ink)}
-.dark .media .ph strong{color:var(--on-dark)}
-.media .ph small{font-size:12px}
-.media.round .ph small{display:none}
-.media.loaded .ph{display:none}
-.big-media{margin-top:64px}
-.media.r32w{aspect-ratio:2000/1140}
-.media.r-enc{aspect-ratio:1217/1400;background:#fff;max-width:440px;justify-self:center;width:100%}
-.dark .window.dark-window{border-color:var(--hair-dark);background:var(--panel)}
-.dark .window.dark-window .bar{background:var(--panel-2);border-color:var(--hair-dark)}
-.media.r-enc img{object-fit:contain}
-[id]{scroll-margin-top:72px}
-.gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:14px;margin-top:64px}
-.gallery .media:first-child{grid-row:span 2;aspect-ratio:auto;min-height:360px}
-.gallery .media:not(:first-child){aspect-ratio:auto;min-height:173px}
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* Cover: name, a drawing-style title block, and a taped photo */
+.cover{grid-column:1 / -1;display:grid;grid-template-columns:var(--m) minmax(0,1fr) auto;gap:0;padding-block:72px 56px;align-items:start}
+.cover .lbl{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:18px}
+.cover h1{margin:0;font-size:clamp(52px,8.5vw,108px);line-height:.9;font-weight:800;font-stretch:68%;letter-spacing:-.01em}
+.cover .intro{max-width:52ch;margin:22px 0 0;font-size:19px;color:var(--ink)}
+.tb{margin-top:32px;border:1.5px solid var(--ink);background:var(--card);display:grid;grid-template-columns:repeat(4,auto);max-width:720px;font-size:14px}
+.tb div{padding:8px 12px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.tb div:nth-child(4n){border-right:0}
+.tb div:nth-last-child(-n+4){border-bottom:0}
+.tb span{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);text-transform:none}
+.cover .me{width:210px;margin:8px 0 0 40px}
 
-/* Browser window frame for screen recordings and site screenshots */
-.window{border-radius:12px;overflow:hidden;border:1px solid var(--hair);background:#fff}
-.window .bar{display:flex;align-items:center;gap:7px;height:30px;padding:0 12px;background:var(--grey);border-bottom:1px solid var(--hair)}
-.window .bar i{width:10px;height:10px;border-radius:50%;background:#FF5F57}.window .bar i:nth-child(2){background:#FEBC2E}.window .bar i:nth-child(3){background:#28C840}
-.window .bar span{margin-left:10px;font-size:12px;color:var(--muted)}
-.window .media{border-radius:0}
+/* Entries */
+.entry{grid-column:1 / -1;display:grid;grid-template-columns:var(--m) minmax(0,1fr);padding-block:56px;border-top:1px dashed var(--major)}
+.stamp{padding-right:30px;text-align:right;position:sticky;top:76px;align-self:start}
+.stamp .d{display:block;font-size:14px;color:var(--ink);font-weight:500}
+.stamp .st{display:inline-block;margin-top:6px;font-size:12px;color:var(--rule);border:1px solid var(--rule);border-radius:3px;padding:0 6px;transform:rotate(-2deg)}
+.body{min-width:0;max-width:880px}
+.body h2{margin:0;font-size:clamp(34px,4.6vw,52px);line-height:1;font-weight:800;font-stretch:70%;letter-spacing:-.005em}
+.body .sub{margin:8px 0 0;color:var(--muted);font-size:16px;max-width:60ch}
+.body>p{max-width:66ch;margin:18px 0 0}
+.body .note{border-left:3px solid var(--pen);padding:4px 0 4px 14px;color:var(--pen)}
 
-/* Spec strip */
-.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:64px;border-top:1px solid var(--hair)}
-.dark .specs{border-color:var(--hair-dark)}
-.spec{padding:24px 20px 0 0}
-.spec .v{font-size:clamp(36px,4.8vw,56px);font-weight:800;letter-spacing:-.01em;line-height:1;font-stretch:72%}
-.spec .v small{font-size:.42em;font-weight:600;letter-spacing:-.01em;margin-left:3px}
-.spec .k{font-size:14px;color:var(--muted);margin-top:10px;max-width:22ch;line-height:1.4}
-.dark .spec .k{color:var(--on-dark-muted)}
+/* Taped photos */
+.row{display:grid;gap:28px;margin-top:32px;align-items:start}
+.row.r-2{grid-template-columns:1fr 1fr}
+.row.r-3{grid-template-columns:2fr 1fr}
+.row.r-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.row.tight{gap:22px}
+.snap{position:relative;margin:0;background:var(--card);padding:9px 9px 0;box-shadow:0 1px 2px rgba(0,0,0,.12),0 10px 24px -14px rgba(0,0,0,.3);transform:rotate(var(--r,0deg))}
+.snap::before{content:"";position:absolute;top:-11px;left:50%;width:84px;height:22px;margin-left:-42px;background:var(--tape);transform:rotate(calc(var(--r,0deg) * -2 - 1deg));box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.snap figcaption{font-size:13px;color:var(--muted);padding:7px 2px 9px;line-height:1.35}
+.media{position:relative;aspect-ratio:3/2;background:#E9EEEA;overflow:hidden}
+.media img,.media video,.media iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border:0}
+.media.contain{background:#fff}.media.contain img{object-fit:contain}
+.snap.tall .media{aspect-ratio:4/5}
+.snap.phone .media{aspect-ratio:1080/2376}
+.phones{display:flex;gap:34px;justify-content:flex-start;margin-top:34px;flex-wrap:wrap}
+.phones .snap{width:min(200px,28%)}
 
-/* Text beside a drawing */
-.split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:64px;align-items:center;margin-top:104px}
-.split.flip{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr)}
-.split.flip > .copy{order:2}
-.copy h3{font-size:clamp(28px,3.4vw,40px);font-weight:750;line-height:1.05;letter-spacing:-.015em;font-stretch:85%}
-.copy p{margin-top:16px;color:var(--muted)}
-.dark .copy p{color:var(--on-dark-muted)}
-.copy b{font-weight:600;color:var(--ink)}
-.dark .copy b{color:var(--on-dark)}
-.plate{border-radius:24px;padding:24px;background:var(--grey);min-width:0}
-.dark .plate{background:var(--panel)}
-.plate .scroll{overflow-x:auto}
-.plate svg{display:block;width:100%;height:auto;min-width:420px}
-.plate figcaption{font-size:13px;color:var(--muted);margin-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.dark .plate figcaption{color:var(--on-dark-muted)}
-figure.plate{margin:0}
+/* Printouts: screenshots, drawings and videos pasted in square */
+.sheet{margin:32px 0 0;background:var(--card);border:1px solid var(--edge);padding:12px;position:relative;min-width:0}
+.row .sheet{margin-top:0}
+.sheet::before,.sheet::after{content:"";position:absolute;width:46px;height:18px;background:var(--tape);top:-8px}
+.sheet::before{left:-12px;transform:rotate(-38deg)}
+.sheet::after{right:-12px;transform:rotate(38deg)}
+.sheet figcaption{font-size:13px;color:var(--muted);margin-top:9px}
+.sheet .media.vid{aspect-ratio:16/9;background:#111}
+.sheet .media{aspect-ratio:auto;min-height:0}
+.sheet .media:not(.vid){aspect-ratio:2000/1140}
+.sheet .media.contain{aspect-ratio:1217/1400;max-height:420px;margin:0 auto}
+.sheet.full{max-width:880px}
+.scroll{overflow-x:auto}
+.scroll svg{display:block;width:100%;height:auto;min-width:420px}
+.scroll.narrow svg{max-width:300px;min-width:0;margin:0 auto}
+.sketch{color:var(--pen);max-width:660px}
+.row .scroll svg{min-width:0}
+.sketch.dark{color:var(--pen)}
 
-/* Drawing styles */
-.dw text{font-family:var(--font);font-size:12px;fill:currentColor}
+/* Drawing styles carried over from the diagrams */
+.dw text{font-family:var(--sans);font-size:12px;fill:currentColor}
 .dw .b{font-weight:600;font-size:13px}
-.dw .m{opacity:.6}
-.dw .ln{stroke:currentColor;stroke-width:1.25;fill:none;opacity:.55}
+.dw .m{opacity:.65}
+.dw .ln{stroke:currentColor;stroke-width:1.25;fill:none;opacity:.6}
 .dw .ln-s{stroke:currentColor;stroke-width:1.4;fill:none}
-.dw .box{fill:none;stroke:currentColor;stroke-width:1.25;opacity:.85}
+.dw .box{fill:none;stroke:currentColor;stroke-width:1.25;opacity:.9}
 .dw .dash{stroke-dasharray:4 4}
 .dw .ah{fill:currentColor}
+.sketch .dw [fill^="var(--"]:not(text){fill-opacity:.9}
 
-/* The interactive cuvette */
-.lab{display:flex;flex-direction:column;gap:18px}
-.lab .controls{display:grid;grid-template-columns:1fr auto auto;gap:20px;align-items:end}
-.lab label{font-size:14px;color:var(--on-dark-muted);display:flex;flex-direction:column;gap:10px}
-.lab input[type=range]{width:100%;accent-color:var(--water)}
-.readout{display:flex;flex-direction:column;align-items:flex-end}
-.readout .n{font-size:30px;font-weight:750;letter-spacing:0;font-stretch:80%;line-height:1;color:var(--on-dark)}
-.readout .l{font-size:12px;color:var(--on-dark-muted);margin-top:4px}
-.tests{display:flex;gap:8px;flex-wrap:wrap}
-.tests button{font:inherit;font-size:13px;padding:6px 12px;border-radius:980px;border:1px solid var(--hair-dark);background:transparent;color:var(--on-dark);cursor:pointer}
-.tests button[aria-pressed=true]{background:var(--on-dark);color:var(--black);border-color:var(--on-dark)}
+/* Minor projects and the events log */
+.minor{margin:20px 0 0;display:grid;grid-template-columns:200px minmax(0,1fr);gap:0;max-width:820px;background:var(--card);border:1px solid var(--edge)}
+.minor dt,.minor dd{margin:0;padding:14px 16px;border-bottom:1px solid var(--edge)}
+.minor dt{font-weight:700;font-stretch:85%;font-size:18px;border-right:1px solid var(--edge)}
+.minor dt:last-of-type,.minor dd:last-of-type{border-bottom:0}
+.log{margin-top:20px;border-collapse:collapse;max-width:880px;width:100%;background:var(--card);border:1px solid var(--edge);font-size:16px}
+.log td{padding:12px 16px;border-bottom:1px solid var(--edge);vertical-align:top}
+.log tr:last-child td{border-bottom:0}
+.log td.d{white-space:nowrap;color:var(--muted);width:1%;border-right:1px solid var(--edge)}
 
-/* Chemistry table */
-.chem{width:100%;border-collapse:collapse;font-size:15px}
-.chem th{text-align:left;font-weight:500;font-size:13px;color:var(--on-dark-muted);padding:0 12px 12px 0;border-bottom:1px solid var(--hair-dark)}
-.chem td{padding:15px 12px 15px 0;border-bottom:1px solid var(--hair-dark)}
-.chem td:first-child{font-weight:600}
-.chem .sw{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:8px}
+/* Parts bin and contact */
+.end{grid-column:1 / -1;display:grid;grid-template-columns:var(--m) minmax(0,1fr);padding-block:56px 40px;border-top:1px dashed var(--major)}
+.bin{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1.5px solid var(--ink);background:var(--card);max-width:880px;margin-top:20px}
+.bin div{padding:14px 16px;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);font-size:15px}
+.bin div:nth-child(3n){border-right:0}
+.bin div:nth-last-child(-n+3){border-bottom:0}
+.bin h3{margin:0 0 4px;font-size:15px;font-weight:700}
+.contact{margin-top:48px}
+.contact p{max-width:58ch}
+.links{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+.btn{font:inherit;font-size:16px;font-weight:600;background:var(--ink);color:#fff;border:0;border-radius:6px;padding:11px 18px;cursor:pointer;min-width:0}
+.btn:hover{background:#000}
+.links a{font-weight:600}
+footer{grid-column:1 / -1;padding:28px 0 40px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer .wrap{width:100%}
 
-/* Chips */
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-.chips span{font-size:13px;padding:5px 12px;border-radius:980px;border:1px solid var(--hair);color:var(--ink)}
-.dark .chips span{border-color:var(--hair-dark);color:var(--on-dark)}
-
-/* Project tiles: varied spans, not a uniform card grid */
-.tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:64px}
-.tile{background:#fff;border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:12px;min-width:0;grid-column:span 3}
-.tile.wide{grid-column:span 6;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
-.tile.third{grid-column:span 2}
-.tile.pin .media{margin-top:auto}
-.tile h3{font-size:30px;font-weight:750;line-height:1.05;letter-spacing:-.01em;font-stretch:85%}
-.tile .ctx{font-size:14px;color:var(--muted)}
-.tile p{color:var(--muted);font-size:16px}
-.tile .media{border-radius:16px;margin-top:8px}
-.tile .side{display:flex;flex-direction:column;gap:14px;min-width:0}
-.robot svg{max-width:300px;min-width:0;margin:0 auto}
-.todo{color:var(--argo)!important;font-weight:500}
-
-/* Leadership list */
-.rows{margin-top:56px;border-top:1px solid var(--hair)}
-.row{display:grid;grid-template-columns:140px minmax(0,1fr) 140px;gap:24px;padding:26px 0;border-bottom:1px solid var(--hair);align-items:baseline}
-.row .when{font-size:15px;color:var(--muted)}
-.row h4{font-size:22px;font-weight:650;letter-spacing:-.005em}
-.row p{color:var(--muted);margin-top:6px;max-width:58ch}
-.row .role{font-size:14px;color:var(--muted);text-align:right}
-
-/* Toolkit */
-.kit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 28px;margin-top:56px}
-.kit div{padding-top:18px;border-top:1px solid var(--hair-dark)}
-.kit h4{font-size:17px;font-weight:600;color:var(--on-dark)}
-.kit p{font-size:15px;color:var(--on-dark-muted);margin-top:6px}
-
-footer{padding-block:24px 36px;font-size:12px;color:var(--muted);background:var(--grey)}
-footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+/* Photo viewer */
+.viewer{position:fixed;inset:0;z-index:100;background:rgba(20,24,24,.92);display:flex;align-items:center;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.viewer img{max-width:100%;max-height:calc(100% - 36px);object-fit:contain}
+.viewer p{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));text-align:center;color:#C9D2CC;font-size:13px;margin:0}
+.media.loaded img{cursor:zoom-in}
+.yt{position:absolute;inset:0;border:0;padding:0;background:#111 center/cover no-repeat;cursor:pointer;display:grid;place-items:center}
+.yt span{width:66px;height:46px;border-radius:12px;background:rgba(0,0,0,.72);display:grid;place-items:center}
+.yt:hover span{background:#E33}
+.yt svg{width:22px;height:22px;fill:#fff}
 
 @media (max-width:860px){
-  .band{padding-block:80px}
-  .specs{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:16px}
-  .split,.split.flip{grid-template-columns:1fr;gap:32px;margin-top:72px}
-  .split.flip > .copy{order:0}
-  .tiles{grid-template-columns:1fr}
-  .tile,.tile.third,.tile.wide{grid-column:auto}
-  .tile.wide{grid-template-columns:1fr;gap:20px}
-  .tile{padding:28px}
-  .kit{grid-template-columns:1fr 1fr}
-  .gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-  .gallery .media:first-child{grid-column:span 2;grid-row:auto;min-height:220px}
-  .row{grid-template-columns:1fr;gap:4px}
-  .row .role{text-align:left}
-  .lab .controls{grid-template-columns:1fr 1fr}
-  .lab .controls label{grid-column:span 2}
+  :root{--m:0px}
+  .page::before{display:none}
+  .cover{grid-template-columns:1fr;padding-block:40px 32px}
+  .cover .lbl{display:none}
+  .cover .me{width:150px;margin:28px 0 0 6px;grid-row:1}
+  .tb{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tb div{border-right:1px solid var(--ink)!important;border-bottom:1px solid var(--ink)!important}
+  .tb div:nth-child(2n){border-right:0!important}
+  .entry,.end{grid-template-columns:1fr;padding-block:40px}
+  .stamp{position:static;text-align:left;padding:0 0 10px;display:flex;gap:10px;align-items:center;border-left:3px solid var(--rule);padding-left:10px;margin-bottom:12px}
+  .stamp .st{margin-top:0}
+  .row.r-2,.row.r-3{grid-template-columns:1fr}
+  .row.r-4{grid-template-columns:1fr 1fr}
+  .minor{grid-template-columns:1fr}.minor dt{border-right:0;border-bottom:0;padding-bottom:0}
+  .bin{grid-template-columns:1fr 1fr}
+  .bin div{border-right:1px solid var(--edge)!important;border-bottom:1px solid var(--edge)!important}
+  .bin div:nth-child(2n){border-right:0!important}
+  .phones{gap:18px}.phones .snap{width:calc(33% - 12px)}
 }
-@media (max-width:520px){ .top ul li.opt{display:none} .top ul{gap:16px} .kit{grid-template-columns:1fr} }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
-<nav class="top" aria-label="Sections">
-  <div class="in">
-    <a class="name" href="#top">Omkar Rane</a>
-    <ul>
-      <li><a href="#sipsure">SipSure</a></li>
-      <li><a href="#argo">ARGO</a></li>
-      <li class="opt"><a href="#rover">Rover</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li class="opt"><a href="#leadership">Leadership</a></li>
-      <li><a href="#creative">Creative</a></li>
-    </ul>
-  </div>
-  <div class="prog" aria-hidden="true"></div>
-</nav>
-
-<header class="hero" id="top">
-  <div class="in">
-    <figure class="media round portrait" data-src="media/omkar.jpg" data-label="Your photo"></figure>
-    <h1>Omkar Rane</h1>
-    <p class="sub">I'm a second-year engineering student at Plaksha. I mostly build electronics and small robots, and I usually end up filming them too.</p>
-    <div class="ctas">
-      <a class="btn" href="#sipsure">Projects</a>
-      <a href="#get-in-touch">Contact me</a>
-    </div>
-    <div class="facts">
-      <span><b>B.Tech</b> at Plaksha University, class of 2029</span>
-      <span>Building <b>SipSure</b></span>
-      <span>Competing in <b>e-Yantra 2026–27</b></span>
-    </div>
+<header class="bar">
+  <div class="wrap">
+    <b>Omkar Rane</b>
+    <nav aria-label="Entries">
+      <a href="#sipsure">SipSure</a><a href="#argo">ARGO</a><a href="#rover">Kalki</a><a href="#robot">Robot</a><a href="#events">Events</a><a href="#creative">Off the bench</a><a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
-<!-- SipSure -->
-<section class="band dark" id="sipsure" aria-labelledby="t-sip">
-  <div class="in">
-    <div class="intro">
-      <h2 class="title" id="t-sip">SipSure</h2>
-      <p class="tagline" style="color:var(--water)">Know What You Drink.</p>
-      <p class="lead">A handheld colorimeter, with an app, that tests drinking water for chromium, nitrite, chlorine and lead. Colorimeters from Hach, Hanna and Thermo cost lab money. We're running the same reagent chemistry on much cheaper parts. Five of us are building it as team Rano for the Xylem Water Hackathon 2026–27, and I'm on the device hardware and firmware.</p>
-      <p class="status"><i></i>Chromium is calibrated in the lab. Testing on the device is next.</p>
-    </div>
-
-    <figure class="media big-media" data-src="media/sipsure-demo.mp4" data-poster="media/sipsure-demo-poster.jpg" data-kind="video" data-label="SipSure demo video"></figure>
-
-    <div class="specs">
-      <div class="spec"><div class="v">4</div><div class="k">water tests on one device</div></div>
-      <div class="spec"><div class="v">2<small>ESP32-S3</small></div><div class="k">a measuring board and a camera board, linked over UART</div></div>
-      <div class="spec"><div class="v">16<small>bit</small></div><div class="k">ADS1115 converter reading the OPT101 photodiode</div></div>
-      <div class="spec"><div class="v">RGB</div><div class="k">light source, so a new test needs a calibration, not new hardware</div></div>
-    </div>
-
-    <div class="split">
-      <div class="copy">
-        <h3>How it measures</h3>
-        <p>The reagent changes the sample's colour, and the more contaminant there is, the deeper the colour gets. We shine light through the cuvette and the photodiode measures how much makes it out the other side. From that we get absorbance, and the calibration curve we made in the lab turns it into mg/L. For chromium we made up ten standards from 0 to 10 ppm, and absorbance came out in a straight line with R² = 0.998.</p>
-        <p>Try the slider. A darker sample lets less light through, and absorbance goes up in a straight line with concentration.</p>
+<main class="wrap">
+  <div class="page">
+    <section class="cover" id="top">
+      <div class="lbl">Logbook, 2025 to now</div>
+      <div>
+        <h1>Omkar Rane</h1>
+        <p class="intro">Second-year engineering student at Plaksha University. I mostly build electronics and small robots, and I usually end up filming them too. This is a running log of what I've worked on, newest first.</p>
+        <div class="tb" role="list">
+          <div role="listitem"><span>Studying</span>B.Tech, Plaksha, class of 2029</div>
+          <div role="listitem"><span>Based in</span>Mohali and Goa</div>
+          <div role="listitem"><span>Mostly</span>Embedded, robotics, film</div>
+          <div role="listitem"><span>Looking for</span>Internships, research</div>
+        </div>
       </div>
-      <figure class="plate lab" style="color:var(--on-dark)">
-        <div class="tests" role="group" aria-label="Choose a test">
-          <button type="button" data-c="#8E3AA6" data-n="Chromium (VI)" aria-pressed="true">Chromium</button>
-          <button type="button" data-c="#D63384" data-n="Nitrite" aria-pressed="false">Nitrite</button>
-          <button type="button" data-c="#F06292" data-n="Free chlorine" aria-pressed="false">Chlorine</button>
-          <button type="button" data-c="#E0503A" data-n="Lead" aria-pressed="false">Lead</button>
-        </div>
-        <div class="scroll">
-        <svg class="dw" id="cuv" viewBox="0 0 520 220" role="img" aria-label="Optical path: an RGB LED shines through the cuvette onto an OPT101 photodiode. The camera board views the cuvette against a white backlight.">
-          <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
-          <rect class="box" x="16" y="88" width="72" height="48" rx="10"/>
-          <circle cx="36" cy="112" r="5" fill="#FF453A"/><circle cx="52" cy="112" r="5" fill="#30D158"/><circle cx="68" cy="112" r="5" fill="#0A84FF"/>
-          <text x="52" y="156" text-anchor="middle">RGB LED</text>
-          <path d="M88 104 L196 99 L196 125 L88 120 Z" fill="var(--water)" opacity=".22"/>
-          <line x1="90" y1="112" x2="192" y2="112" class="ln-s" stroke="var(--water)" marker-end="url(#a1)"/>
-          <text x="140" y="92" text-anchor="middle" class="m">I₀ in</text>
-          <rect id="liquid" x="198" y="66" width="80" height="94" rx="3" fill="#8E3AA6" opacity=".45"/>
-          <rect class="box" x="198" y="48" width="80" height="112" rx="3"/>
-          <text x="238" y="178" text-anchor="middle" class="b">Cuvette</text>
-          <text x="238" y="194" text-anchor="middle" class="m">clear on all four walls</text>
-          <line x1="198" y1="38" x2="278" y2="38" class="ln"/><line x1="198" y1="33" x2="198" y2="43" class="ln"/><line x1="278" y1="33" x2="278" y2="43" class="ln"/>
-          <text x="238" y="27" text-anchor="middle" class="m">path length l</text>
-          <path id="beamOut" d="M278 104 L384 106 L384 118 L278 120 Z" fill="var(--water)" opacity=".2"/>
-          <line id="lineOut" x1="282" y1="112" x2="380" y2="112" class="ln-s" stroke="var(--water)" marker-end="url(#a1)"/>
-          <text x="330" y="94" text-anchor="middle" class="m">I out</text>
-          <rect class="box" x="386" y="88" width="68" height="48" rx="8"/>
-          <text x="420" y="116" text-anchor="middle" class="b">OPT101</text>
-          <line x1="454" y1="112" x2="478" y2="112" class="ln" marker-end="url(#a1)"/>
-          <text x="500" y="108" text-anchor="middle">ADS</text><text x="500" y="122" text-anchor="middle">1115</text>
-        </svg>
-        </div>
-        <div class="controls">
-          <label for="conc">Sample concentration (relative)
-            <input type="range" id="conc" min="0" max="100" value="45">
-          </label>
-          <div class="readout"><span class="n" id="tOut">36%</span><span class="l">light through</span></div>
-          <div class="readout"><span class="n" id="aOut">0.45</span><span class="l">absorbance</span></div>
-        </div>
-        <figcaption><span>Figure 1. Optical path, A = log₁₀(I₀ ÷ I) = ε·l·c</span><span>Illustrative values</span></figcaption>
-      </figure>
-    </div>
+      <figure class="snap me" style="--r:2deg"><div class="media" data-src="media/omkar.jpg" data-label="Omkar Rane" style="aspect-ratio:471/579"></div></figure>
+    </section>
 
-    <div class="split flip">
-      <div class="copy">
-        <h3>The four tests</h3>
-        <p>Each one uses a published colour reaction, so anyone can check our numbers against the standard method. We also wanted fluoride, but we didn't have the reagent, so it's out of the first version.</p>
-      </div>
-      <figure class="plate" style="color:var(--on-dark)">
-        <div class="scroll">
-        <table class="chem">
-          <thead><tr><th>Analyte</th><th>Reagent</th><th>Colour</th><th>Typical peak</th></tr></thead>
-          <tbody>
-            <tr><td>Chromium (VI)</td><td>Diphenylcarbazide</td><td><span class="sw" style="background:#8E3AA6"></span>Violet</td><td>about 540 nm</td></tr>
-            <tr><td>Nitrite</td><td>Griess</td><td><span class="sw" style="background:#D63384"></span>Pink</td><td>about 540 nm</td></tr>
-            <tr><td>Free chlorine</td><td>DPD</td><td><span class="sw" style="background:#F06292"></span>Pink</td><td>about 515 nm</td></tr>
-            <tr><td>Lead</td><td>PAR</td><td><span class="sw" style="background:#E0503A"></span>Red</td><td>about 520 nm</td></tr>
-          </tbody>
-        </table>
-        </div>
-        <figcaption><span>Figure 2. Test menu</span><span>Peaks are typical literature values</span></figcaption>
-      </figure>
-    </div>
+<article class="entry" id="sipsure">
+  <div class="stamp"><span class="d">2026–27</span><span class="st">In progress</span></div>
+  <div class="body">
+    <h2>SipSure</h2><p class="sub">A low-cost water tester, with team Rano for the Xylem Water Hackathon</p>
 
-    <div class="split">
-      <div class="copy">
-        <h3>Why two boards</h3>
-        <p>The main ESP32-S3 does the measuring and runs the 1.3-inch OLED and buttons. A second ESP32-S3 with a camera photographs the same cuvette against a white backlight, so each reading comes with a picture we can check it against. Readings go to the app with a location attached, and we plan to send them to the government's water-quality database.</p>
-        <p>The LED runs from a constant-current driver, so the light going through the sample is the same on every reading.</p>
-        <div class="chips"><span>ESP32-S3</span><span>Arduino C++</span><span>OPT101</span><span>ADS1115</span><span>UART</span><span>I²C</span></div>
-      </div>
-      <figure class="plate" style="color:var(--on-dark)">
-        <div class="scroll">
-        <svg class="dw" viewBox="0 0 520 240" role="img" aria-label="System: the main ESP32-S3 reads the ADS1115 over I2C, drives the LED with a constant current, runs the OLED and buttons, talks to the camera ESP32-S3 over UART, and sends geotagged readings to the SipSure app.">
+<p>Colorimeters from Hach, Hanna and Thermo cost lab money. We're running the same reagent chemistry on much cheaper parts: the reagent turns the sample a colour, we shine an LED through it and measure how much light makes it out. Four tests for now: chromium (VI), nitrite, free chlorine and lead. Fluoride is out of version one because we didn't have the reagent.</p>
+<p>I'm on the device hardware and firmware. The main <code class="pn">ESP32-S3</code> reads an <code class="pn">OPT101</code> through a 16-bit <code class="pn">ADS1115</code> and runs the OLED and four buttons. A second <code class="pn">ESP32-S3</code> with a camera photographs the same cuvette against a white backlight, so every number comes with a picture to check it against. The LED runs off a constant-current driver so the light is the same on every reading.</p>
+<div class="row r-3">
+<figure class="snap wide" style="--r:-1.2deg"><div class="media" data-src="media/sipsure-bench.jpg" data-label="First build on breadboards"></div><figcaption>First build on breadboards</figcaption></figure>
+<figure class="snap " style="--r:1.4deg"><div class="media" data-src="media/sipsure-optics.jpg" data-label="3D-printed optics holder, green LED on"></div><figcaption>3D-printed optics holder, green LED on</figcaption></figure>
+</div>
+<p class="note">Chromium is calibrated: ten standards from 0 to 10 ppm, and absorbance came out in a straight line with R² = 0.998. Loading that curve into the device is next, then the other three tests.</p>
+<div class="row r-2">
+<figure class="snap " style="--r:0.8deg"><div class="media" data-src="media/sipsure-standards.jpg" data-label="Cr(VI) standards, 0 to 10 ppm"></div><figcaption>Cr(VI) standards, 0 to 10 ppm</figcaption></figure>
+<figure class="sheet print"><div class="media" data-src="media/sipsure-sim.jpg" data-label="Full circuit in my Velxio fork"></div><figcaption>Simulated the whole circuit in my Velxio fork before wiring it</figcaption></figure>
+</div>
+<div class="row r-2 tight">
+<figure class="sheet sketch"><div class="scroll"><svg class="dw" viewBox="0 0 520 240" role="img" aria-label="System: the main ESP32-S3 reads the ADS1115 over I2C, drives the LED with a constant current, runs the OLED and buttons, talks to the camera ESP32-S3 over UART, and sends geotagged readings to the SipSure app.">
           <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
           <rect x="185" y="80" width="150" height="80" rx="12" fill="var(--water)" opacity=".14"/>
           <rect x="185" y="80" width="150" height="80" rx="12" fill="none" stroke="var(--water)" stroke-width="1.6"/>
@@ -414,65 +241,27 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <path d="M183 144 L162 144 L162 202 L140 202" class="ln" marker-end="url(#a2)"/>
           <path d="M335 96 L358 96 L358 38 L380 38" class="ln" marker-end="url(#a2)"/><text x="364" y="72" class="m">UART</text>
           <path d="M335 144 L358 144 L358 202 L380 202" class="ln" marker-end="url(#a2)"/><text x="366" y="168" class="m">geotagged</text><text x="366" y="182" class="m">readings</text>
-        </svg>
-        </div>
-        <figcaption><span>Figure 3. System</span><span>Team Rano, five members</span></figcaption>
-      </figure>
-    </div>
+        </svg></div><figcaption>System sketch</figcaption></figure>
+<figure class="sheet print"><div class="media contain" data-src="media/sipsure-enclosure.jpg" data-label="Planned enclosure, exploded view"></div><figcaption>Planned enclosure: hatch over the cuvette keeps room light out</figcaption></figure>
+</div>
+<figure class="sheet print full"><div class="media vid" data-src="media/sipsure-demo.mp4" data-kind="video" data-label="SipSure demo"></div><figcaption>Our demo video for the first round</figcaption></figure>
 
-    <div class="gallery">
-      <figure class="media" data-src="media/sipsure-bench.jpg" data-label="The first SipSure prototype on breadboards, with the OLED, buttons and optics holder"></figure>
-      <figure class="media" data-src="media/sipsure-optics.jpg" data-label="The 3D-printed optics holder with the green LED on"></figure>
-      <figure class="media" data-src="media/sipsure-standards.jpg" data-label="Chromium (VI) standards from 0 to 10 ppm, made up for calibration"></figure>
-    </div>
-
-    <div class="split">
-      <div class="copy">
-        <h3>Simulated first</h3>
-        <p>Before wiring anything, I built the whole circuit in my own fork of the <b>Velxio</b> simulator: the LED driver, the OPT101 and ADS1115, the buttons, the OLED, both ESP32-S3 boards and the USB-C power input. Checking the voltages and the LED current there first meant fewer surprises on the breadboard.</p>
-      </div>
-      <div class="window dark-window">
-        <div class="bar"><i></i><i></i><i></i><span>SipSure circuit, Velxio fork</span></div>
-        <figure class="media r32w" data-src="media/sipsure-sim.jpg" data-label="The full SipSure circuit in my Velxio fork, with live voltage and current readings"></figure>
-      </div>
-    </div>
-
-    <div class="split flip">
-      <div class="copy">
-        <h3>Next, the enclosure</h3>
-        <p>The plan is a small box with the screen and four buttons on top and a hinged hatch over the cuvette, so outside light stays out. The main board and the optics sit in separate bays inside.</p>
-      </div>
-      <figure class="media r-enc" data-src="media/sipsure-enclosure.jpg" data-label="Exploded view of the planned SipSure enclosure"></figure>
-    </div>
   </div>
-</section>
+</article>
 
-<!-- ARGO -->
-<section class="band" id="argo" aria-labelledby="t-argo">
-  <div class="in">
-    <div class="intro">
-      <h2 class="title" id="t-argo">ARGO</h2>
-      <p class="tagline" style="color:var(--argo)">Parcel pickup at the campus gate, checked by face.</p>
-      <p class="lead">Our ILGC-II project. ARGO logs every parcel that comes in at Plaksha's Gate 1 and checks the student's face when they pick it up. I was project manager for our team of six, Team Helios. We built the app with Google Antigravity, an AI coding agent. I worked out the system design and user flows, then tested and debugged what it produced.</p>
-      <p class="status done"><i></i>Finished as a working prototype</p>
-    </div>
+<article class="entry" id="argo">
+  <div class="stamp"><span class="d">ILGC-II</span><span class="st">Prototype done</span></div>
+  <div class="body">
+    <h2>ARGO</h2><p class="sub">Parcel pickup at Gate 1, checked by face. Team Helios, six of us; I was project manager</p>
 
-    <div class="phones">
-      <figure class="media phone" data-src="media/argo-3.jpg" data-label="ARGO guard login screen"></figure>
-      <figure class="media phone" data-src="media/argo-1.jpg" data-label="ARGO guard home screen"></figure>
-      <figure class="media phone" data-src="media/argo-2.jpg" data-label="ARGO label scanning screen"></figure>
-    </div>
-
-    <div class="split">
-      <div class="copy">
-        <h3>Why face verification</h3>
-        <p>We surveyed students, and most of them preferred a face scan to a QR code, so that's what pickup uses. Gemini 2.5 Flash reads the label on each parcel so nobody has to type it in. If it can't read one, the guard enters it by hand.</p>
-        <p>If a parcel isn't collected, the student gets another reminder every 48 hours.</p>
-        <div class="chips"><span>Google Antigravity</span><span>Flutter</span><span>Firebase</span><span>Gemini 2.5 Flash</span><span>MobileFaceNet</span><span>InsightFace</span></div>
-      </div>
-      <figure class="plate" style="color:var(--ink)">
-        <div class="scroll">
-        <svg class="dw" viewBox="0 0 530 320" role="img" aria-label="Parcel flow: parcel arrives, Gemini reads the label or it falls back to manual entry, a shelf slot is assigned, the student is notified, the student's face is matched and the parcel is handed over. If not picked up in 48 hours, the student is reminded again.">
+<p>ARGO logs every parcel that comes in at Plaksha's Gate 1. Gemini 2.5 Flash reads the label so the guard doesn't have to type it, and if it can't, the guard enters it by hand. The student collects it with a face scan. We surveyed students first, and most preferred a face scan to a QR code.</p>
+<p>We built the app with Google Antigravity, an AI coding agent. My part was the system design and the user flows, then testing and debugging what it produced. Flutter, Firebase, MobileFaceNet and InsightFace underneath.</p>
+<div class="phones">
+<figure class="snap phone" style="--r:-1.5deg"><div class="media" data-src="media/argo-3.jpg" data-label="Guard login"></div><figcaption>Guard login</figcaption></figure>
+<figure class="snap phone" style="--r:0.6deg"><div class="media" data-src="media/argo-1.jpg" data-label="Guard home"></div><figcaption>Guard home</figcaption></figure>
+<figure class="snap phone" style="--r:-0.4deg"><div class="media" data-src="media/argo-2.jpg" data-label="Label scan"></div><figcaption>Label scan</figcaption></figure>
+</div>
+<figure class="sheet sketch"><div class="scroll"><svg class="dw" viewBox="0 0 530 320" role="img" aria-label="Parcel flow: parcel arrives, Gemini reads the label or it falls back to manual entry, a shelf slot is assigned, the student is notified, the student's face is matched and the parcel is handed over. If not picked up in 48 hours, the student is reminded again.">
           <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
           <rect class="box" x="16" y="20" width="140" height="40" rx="20"/><text x="86" y="44" text-anchor="middle">Parcel arrives</text>
           <rect x="190" y="20" width="140" height="40" rx="8" fill="none" stroke="var(--argo)" stroke-width="1.6"/><text x="260" y="44" text-anchor="middle">Gemini reads label</text>
@@ -491,42 +280,20 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <line x1="190" y1="196" x2="158" y2="196" class="ln" marker-end="url(#a3)"/>
           <line x1="410" y1="216" x2="410" y2="260" class="ln dash" marker-end="url(#a3)"/>
           <path d="M504 284 L518 284 L518 196 L506 196" class="ln dash" marker-end="url(#a3)"/><text x="508" y="246" class="m" text-anchor="end">remind</text>
-        </svg>
-        </div>
-        <figcaption><span>Figure 4. Parcel flow at Gate 1</span></figcaption>
-      </figure>
-    </div>
+        </svg></div><figcaption>Parcel flow. Uncollected parcels get a reminder every 48 hours</figcaption></figure>
+
   </div>
-</section>
+</article>
 
-<!-- Rover -->
-<section class="band dark" id="rover" aria-labelledby="t-rover">
-  <div class="in">
-    <div class="intro">
-      <h2 class="title" id="t-rover">Team Kalki</h2>
-      <p class="tagline" style="color:var(--mars)">Electronics for a Mars rover.</p>
-      <p class="lead">Plaksha's University Rover Challenge team has about 50 students. I co-headed the electronics subsystem from my first year until late 2026. In that time we cleared the Preliminary Design Review and reached the System Acceptance Review with working prototypes.</p>
-    </div>
+<article class="entry" id="rover">
+  <div class="stamp"><span class="d">2025 to Nov 2026</span><span class="st">Stepped down</span></div>
+  <div class="body">
+    <h2>Team Kalki</h2><p class="sub">Electronics for Plaksha's University Rover Challenge team, about 50 students</p>
 
-    <figure class="media big-media" data-youtube="2FX4ZJhsXNs" data-label="Team Kalki rover video"></figure>
-
-    <div class="specs">
-      <div class="spec"><div class="v">~50</div><div class="k">students on the team</div></div>
-      <div class="spec"><div class="v">CAN</div><div class="k">bus between boards, with FlexCAN_T4</div></div>
-      <div class="spec"><div class="v">Teensy</div><div class="k">4.0 and 4.1 boards running the drive firmware</div></div>
-      <div class="spec"><div class="v">SAR</div><div class="k">review stage reached after clearing the PDR</div></div>
-    </div>
-
-    <div class="split">
-      <div class="copy">
-        <h3>How the boards talk</h3>
-        <p>All the boards on the rover share one pair of wires, using CAN. Each message has an ID. If two boards send at the same moment, the one with the higher-priority ID goes through and nothing gets corrupted. Cars use the same bus for the same reason.</p>
-        <p>My part was the Teensy 4.x firmware for the drive system. It sends and receives these messages with FlexCAN_T4 and reads the wheel encoders. I also ran some basic servo PWM tests on an <b>STM32G474RE</b>.</p>
-        <div class="chips"><span>Teensy 4.0 and 4.1</span><span>Embedded C++</span><span>CAN bus</span><span>FlexCAN_T4</span></div>
-      </div>
-      <figure class="plate" style="color:var(--on-dark)">
-        <div class="scroll">
-        <svg class="dw" viewBox="0 0 520 210" role="img" aria-label="CAN bus: several boards, each with a CAN transceiver, connect to the same two wires, CAN high and CAN low, with a 120 ohm resistor at each end of the bus.">
+<p>Co-headed the electronics subsystem from my first year until November 2026. We cleared the Preliminary Design Review and reached the System Acceptance Review with working prototypes.</p>
+<p>My part was the drive firmware on <code class="pn">Teensy 4.0</code> and <code class="pn">Teensy 4.1</code>: sending and receiving CAN messages with <code class="pn">FlexCAN_T4</code> and reading the wheel encoders. Every board shares one pair of wires, and when two talk at once the higher-priority ID wins without corrupting anything. I also ran some basic servo PWM tests on an <code class="pn">STM32G474RE</code>.</p>
+<figure class="sheet print full"><div class="media vid" data-youtube="2FX4ZJhsXNs" data-label="Team Kalki rover"></div><figcaption>Rover video</figcaption></figure>
+<figure class="sheet sketch dark"><div class="scroll"><svg class="dw" viewBox="0 0 520 210" role="img" aria-label="CAN bus: several boards, each with a CAN transceiver, connect to the same two wires, CAN high and CAN low, with a 120 ohm resistor at each end of the bus.">
           <line x1="40" y1="130" x2="452" y2="130" stroke="var(--mars)" stroke-width="2"/>
           <line x1="40" y1="160" x2="452" y2="160" class="ln-s"/>
           <text x="460" y="134" class="b">CAN H</text><text x="460" y="164" class="b">CAN L</text>
@@ -550,30 +317,19 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <rect x="358" y="88" width="60" height="22" rx="4" class="box dash"/><text x="388" y="103" text-anchor="middle" class="m">transceiver</text>
             <line x1="388" y1="76" x2="388" y2="88" class="ln"/><line x1="378" y1="110" x2="378" y2="130" class="ln-s"/><line x1="398" y1="110" x2="398" y2="160" class="ln-s"/>
           </g>
-        </svg>
-        </div>
-        <figcaption><span>Figure 5. CAN bus on the rover, simplified</span><span>Terminated with 120 Ω at each end</span></figcaption>
-      </figure>
-    </div>
+        </svg></div><figcaption>CAN bus on the rover, simplified. 120 Ω at each end</figcaption></figure>
+
   </div>
-</section>
+</article>
 
-<!-- Projects -->
-<section class="band grey" id="projects" aria-labelledby="t-proj">
-  <div class="in">
-    <div class="intro">
-      <h2 class="title" id="t-proj">Other projects</h2>
-      <p class="lead">Smaller builds, a simulator and a couple of tools. Most of these are still in progress.</p>
-    </div>
+<article class="entry" id="robot">
+  <div class="stamp"><span class="d">Fall 2026</span><span class="st">Rebuilt</span></div>
+  <div class="body">
+    <h2>Navigation robot</h2><p class="sub">IM Project Competition: a navigation board and a speed race</p>
 
-    <div class="tiles">
-      <article class="tile wide">
-        <div class="side">
-          <p class="ctx">IM Project Competition, Fall 2026</p>
-          <h3>Navigation robot</h3>
-          <p>For a navigation board and a speed race. My first version kept drifting to one side because the two motors didn't have the same top speed. So I rebuilt it on a Raspberry Pi Pico and added wheel encoders, which let me match the speeds in closed loop.</p>
-          <figure class="plate robot" style="color:var(--ink);background:var(--grey);padding:16px;margin-top:4px">
-            <svg class="dw" viewBox="0 0 300 210" role="img" aria-label="Top view: two rear drive wheels with encoders, a front caster, three ultrasonic sensors across the front, two downward IR sensors and the Pico in the middle.">
+<p>My first version kept drifting to one side because the two motors didn't have the same top speed. So I rebuilt it on a <code class="pn">Raspberry Pi Pico</code> with wheel encoders, which let me match the speeds in closed loop. Three <code class="pn">HC-SR04</code> sensors across the front and two IR sensors facing down.</p>
+<div class="row r-2 tight">
+<figure class="sheet sketch"><div class="scroll narrow"><svg class="dw" viewBox="0 0 300 210" role="img" aria-label="Top view: two rear drive wheels with encoders, a front caster, three ultrasonic sensors across the front, two downward IR sensors and the Pico in the middle.">
               <rect x="82" y="36" width="136" height="150" rx="20" class="box"/>
               <rect x="58" y="136" width="20" height="44" rx="4" class="box"/><rect x="222" y="136" width="20" height="44" rx="4" class="box"/>
               <text x="68" y="200" text-anchor="middle" class="m">encoder</text><text x="232" y="200" text-anchor="middle" class="m">encoder</text>
@@ -584,280 +340,150 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
               <circle cx="128" cy="110" r="5" fill="var(--argo)"/><circle cx="172" cy="110" r="5" fill="var(--argo)"/>
               <text x="150" y="128" text-anchor="middle" class="m">2 × IR, facing down</text>
               <rect x="122" y="140" width="56" height="26" rx="4" class="box"/><text x="150" y="157" text-anchor="middle">Pico</text>
-            </svg>
-            <figcaption><span>Figure 6. Top view, sensor placement approximate</span></figcaption>
-          </figure>
-        </div>
-        <figure class="media tall" data-src="media/nav-robot.mp4" data-kind="video" data-label="Navigation robot video"></figure>
-      </article>
+            </svg></div><figcaption>Top view, sensor placement approximate</figcaption></figure>
+<figure class="snap " style="--r:1.1deg"><div class="media" data-src="media/nav-robot.jpg" data-label="The robot"></div><figcaption>The robot</figcaption></figure>
+</div>
 
-      <article class="tile">
-        <p class="ctx">Personal fork</p>
-        <h3>Velxio simulator</h3>
-        <p>I forked the open-source Velxio electronics simulator and added the features I needed, building them with Claude Code. It's what I used to simulate the SipSure circuit.</p>
-        <div class="window" style="margin-top:8px">
-          <div class="bar"><i></i><i></i><i></i><span>Velxio</span></div>
-          <figure class="media" data-src="media/velxio-demo.mp4" data-kind="video" data-label="Velxio screen recording"></figure>
-        </div>
-      </article>
-
-      <article class="tile">
-        <p class="ctx">Design Thinking course</p>
-        <h3>VayuBox</h3>
-        <p>A room air purifier with a HEPA filter stack and an enclosure we designed. We checked it with PM2.5 readings to see if it actually cleaned the air.</p>
-        <div class="pair">
-          <figure class="media square" data-src="media/vayubox-1.jpg" data-label="VayuBox photo 1"></figure>
-          <figure class="media square" data-src="media/vayubox-2.jpg" data-label="VayuBox photo 2"></figure>
-        </div>
-      </article>
-
-      <article class="tile">
-        <p class="ctx">IIT Bombay, 2026–27</p>
-        <h3>e-Yantra</h3>
-        <p>Two themes this year. On Khoj-o-Drone I handle the PID and actuator control that keeps a simulated drone at a set height, in ROS 2 and MuJoCo. On Niti Vahan, Divam Gupta and I are working on lane keeping for an Ackermann-steered car in CoppeliaSim.</p>
-      </article>
-
-      <article class="tile">
-        <p class="ctx">Personal project</p>
-        <h3>Video pipeline</h3>
-        <p>A Python script that takes a written script, voices it with Kokoro TTS, adds captions and renders a short video with FFmpeg.</p>
-      </article>
-    </div>
   </div>
-</section>
+</article>
 
-<!-- Leadership -->
-<section class="band" id="leadership" aria-labelledby="t-lead">
-  <div class="in">
-    <h2 class="title" id="t-lead">Leadership and events</h2>
-    <div class="rows">
-      <div class="row"><span class="when">Fall 2026</span><div><h4>Office of Global Engagements</h4><p>Moderated partner-university info sessions, including Penn Engineering's 4+1 programme, and wrote the brief after each. Photographed the office's events and ran its contacts database.</p></div><span class="role">Campus intern</span></div>
-      <div class="row"><span class="when">Sep 2026</span><div><h4>Trackshift</h4><p>Ran participant registration on campus for this national-level hackathon.</p></div><span class="role">Volunteer</span></div>
-      <div class="row"><span class="when">Feb 2026</span><div><h4>Medithon</h4><p>Helped manage a two-day national-level hackathon on campus: coordinated the volunteers, organised the mid-event announcements, looked after guests and photographed the event.</p></div><span class="role">Event volunteer</span></div>
-      <div class="row"><span class="when">2025–26</span><div><h4>Entrepreneurial Challenge Cup</h4><p>Anchored the six-hour event and kept the pitches on schedule.</p></div><span class="role">Host</span></div>
-      <div class="row"><span class="when">2025–26</span><div><h4>Founder's Day stall</h4><p>Ran the Centre for Entrepreneurship stall and designed an investing game visitors played on the spot.</p></div><span class="role">Stall lead</span></div>
-      <div class="row"><span class="when">2025–26</span><div><h4>Makethon, Rube Goldberg 2.0</h4><p>Led a team of five through an intra-Plaksha build competition.</p></div><span class="role">Team lead</span></div>
-      <div class="row"><span class="when">2025–26</span><div><h4>Smart India Hackathon</h4><p>Cleared the internal college round.</p></div><span class="role">Participant</span></div>
-      <div class="row"><span class="when">2025–26</span><div><h4>Young Creators League</h4><p>Gave campus tours and handled the helpdesk and judge logistics.</p></div><span class="role">Volunteer</span></div>
-    </div>
+<article class="entry" id="small">
+  <div class="stamp"><span class="d">2025 to 2026</span></div>
+  <div class="body">
+    <h2>Smaller things</h2>
+
+<dl class="minor">
+<dt>Velxio fork</dt><dd>Forked the open-source Velxio electronics simulator and added what I needed for SipSure, building the features with Claude Code.</dd>
+<dt>e-Yantra, IIT Bombay</dt><dd>Khoj-o-Drone: PID and actuator control holding a simulated drone at a set height in ROS 2 and MuJoCo. Niti Vahan: lane keeping for an Ackermann-steered car in CoppeliaSim, with Divam Gupta.</dd>
+<dt>VayuBox</dt><dd>A room air purifier for the Design Thinking course: HEPA filter stack, our own enclosure, and PM2.5 readings to check it actually cleaned the air.</dd>
+<dt>Video pipeline</dt><dd>A Python script that voices a written script with Kokoro TTS, adds captions and renders a short video with FFmpeg.</dd>
+</dl>
+
   </div>
-</section>
+</article>
 
-<!-- Creative -->
-<section class="band grey" id="creative" aria-labelledby="t-cre">
-  <div class="in">
-    <div class="intro">
-      <h2 class="title" id="t-cre">Outside the lab</h2>
-      <p class="lead">I also make short films, perform on stage, host events and design the odd website.</p>
-    </div>
-    <div class="tiles">
-      <article class="tile wide">
-        <div class="side">
-          <p class="ctx">CTLC course</p>
-          <h3>Fast fashion documentary</h3>
-          <p>A team documentary about fast fashion. I shot most of the footage and set up the interviews, and helped with the script and direction.</p>
+<article class="entry" id="events">
+  <div class="stamp"><span class="d">2025 to 2026</span></div>
+  <div class="body">
+    <h2>Events and campus work</h2>
+
+<table class="log">
+<tr><td class="d">Fall 2026</td><td><b>Office of Global Engagements</b>, campus intern. Moderated partner-university info sessions, including Penn Engineering's 4+1 programme, and wrote the brief after each. Photographed the office's events and ran its contacts database.</td></tr>
+<tr><td class="d">Sep 2026</td><td><b>Trackshift</b>, volunteer. Ran participant registration for this national-level hackathon.</td></tr>
+<tr><td class="d">Feb 2026</td><td><b>Medithon</b>, event volunteer. Coordinated volunteers, organised mid-event announcements, looked after guests and photographed the two days.</td></tr>
+<tr><td class="d">2025–26</td><td><b>Entrepreneurial Challenge Cup</b>, host. Anchored the six-hour event and kept the pitches on schedule.</td></tr>
+<tr><td class="d">2025–26</td><td><b>Founder's Day stall</b>. Ran the Centre for Entrepreneurship stall and designed an investing game visitors played on the spot.</td></tr>
+<tr><td class="d">2025–26</td><td><b>Makethon, Rube Goldberg 2.0</b>. Led a team of five.</td></tr>
+<tr><td class="d">2025–26</td><td><b>Smart India Hackathon</b>. Cleared the internal round.</td></tr>
+<tr><td class="d">2025–26</td><td><b>Young Creators League</b>, volunteer. Campus tours, helpdesk and judge logistics.</td></tr>
+</table>
+
+  </div>
+</article>
+
+<article class="entry" id="creative">
+  <div class="stamp"><span class="d">2025 to 2026</span></div>
+  <div class="body">
+    <h2>Off the bench</h2><p class="sub">Films, stage, hosting and photos</p>
+
+<p>A team documentary about fast fashion for the CTLC course: I shot most of the footage, set up the interviews and helped with the script and direction. With one teammate I also made a reel that came second in the CTLC Reel Challenge 2026.</p>
+<div class="row r-3">
+<figure class="sheet print"><div class="media vid" data-src="media/fast-fashion-doc.mp4" data-kind="video" data-label="Fashion Unstitched"></div><figcaption>Fashion Unstitched, our documentary</figcaption></figure>
+<figure class="snap tall" style="--r:1.3deg"><div class="media" data-src="media/ctlc-reel.jpg" data-label="Second prize, CTLC Reel Challenge"></div><figcaption>Second prize, CTLC Reel Challenge</figcaption></figure>
+</div>
+<p>I host campus events and moderate info sessions with visiting universities, and I photograph sessions for the Office of Global Engagements. I danced in team pieces at Resonance in 2025 and 2026.</p>
+<div class="row r-4">
+<figure class="snap " style="--r:-1.4deg"><div class="media" data-src="media/hosting-1.jpg" data-label="Co-hosting at the podium"></div><figcaption>Co-hosting at the podium</figcaption></figure>
+<figure class="snap tall" style="--r:1.0deg"><div class="media" data-src="media/hosting-3.jpg" data-label="On the mic"></div><figcaption>On the mic</figcaption></figure>
+<figure class="snap tall" style="--r:-0.6deg"><div class="media" data-src="media/photography.jpg" data-label="Panel I photographed for OGE"></div><figcaption>Panel I photographed for OGE</figcaption></figure>
+<figure class="snap " style="--r:1.5deg"><div class="media" data-src="media/resonance-2025.jpg" data-label="Resonance 2025"></div><figcaption>Resonance 2025</figcaption></figure>
+</div>
+
+  </div>
+</article>
+
+    <section class="end" id="contact">
+      <div></div>
+      <div>
+        <h2 style="margin:0;font-size:clamp(34px,4.6vw,52px);line-height:1;font-weight:800;font-stretch:70%">Parts bin</h2>
+        <div class="bin">
+          <div><h3>Microcontrollers</h3><code class="pn">ESP32-S3</code> <code class="pn">Raspberry Pi Pico</code> <code class="pn">Teensy 4.x</code>, some <code class="pn">STM32</code></div>
+          <div><h3>Buses and control</h3>CAN, UART, I²C, PWM, PID, quadrature encoders</div>
+          <div><h3>Electronics</h3>KiCad, Velxio, sensor calibration, bench debugging</div>
+          <div><h3>Robotics</h3>ROS 2 Humble, MuJoCo, CoppeliaSim</div>
+          <div><h3>Software</h3>C++ and Python, plus AI-assisted builds with Google Antigravity and Claude Code</div>
+          <div><h3>Off the bench</h3>Directing, editing, photography, hosting</div>
         </div>
-        <figure class="media" data-src="media/fast-fashion-doc.mp4" data-poster="media/fast-fashion-doc-poster.jpg" data-kind="video" data-label="Documentary clip"></figure>
-      </article>
-      <article class="tile pin">
-        <p class="ctx">Second place</p>
-        <h3>CTLC Reel Competition</h3>
-        <p>Made with one teammate. We came up with the idea, directed it, shot it and edited it between the two of us.</p>
-        <figure class="media r45" data-src="media/ctlc-reel.jpg" data-label="Receiving second prize at the CTLC Reel Challenge 2026"></figure>
-      </article>
-      <article class="tile pin">
-        <p class="ctx">Office of Global Engagements</p>
-        <h3>Photography</h3>
-        <p>I photograph sessions and visits for the Office of Global Engagements, from Grad 101 days to talks by visiting universities.</p>
-        <figure class="media r45" data-src="media/photography.jpg" data-label="Panel discussion photographed for the Office of Global Engagements"></figure>
-      </article>
-      <article class="tile wide hosting">
-        <div class="side">
-          <p class="ctx">Ongoing</p>
-          <h3>Hosting</h3>
-          <p>I host campus events and moderate info sessions with visiting universities. A lot of it happens off the mic, like keeping a six-hour pitch event on schedule.</p>
-          <div class="thumbs" role="group" aria-label="Hosting photos">
-            <button type="button" aria-pressed="true" data-src="media/hosting-1.jpg" data-alt="Co-hosting at the podium"><img src="media/hosting-1.jpg" alt=""><span class="sr">Co-hosting at the podium</span></button>
-            <button type="button" aria-pressed="false" data-src="media/hosting-2.jpg" data-alt="Directing people at a campus event"><img src="media/hosting-2.jpg" alt=""><span class="sr">Directing people at an event</span></button>
-            <button type="button" aria-pressed="false" data-src="media/hosting-3.jpg" data-alt="On the mic at a campus event"><img src="media/hosting-3.jpg" alt=""><span class="sr">On the mic</span></button>
-            <button type="button" aria-pressed="false" data-src="media/hosting-4.jpg" data-alt="In conversation at a campus event"><img src="media/hosting-4.jpg" alt=""><span class="sr">In conversation</span></button>
+        <div class="contact">
+          <h2 style="margin:0;font-size:clamp(34px,4.6vw,52px);line-height:1;font-weight:800;font-stretch:70%">Get in touch</h2>
+          <p>I'm looking for internships and research work in embedded systems, robotics and creative technology. Email is the quickest way to reach me.</p>
+          <div class="links">
+            <button type="button" class="btn" id="mail" data-mail="omkarrane0110@gmail.com" title="Click to copy">omkarrane0110@gmail.com</button>
+            <a href="https://www.linkedin.com/in/omkar-bhupesh-rane-66b61338a" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/omkaarr-dev" target="_blank" rel="noopener">GitHub</a>
+            <span class="sr" id="mailHint" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>
           </div>
         </div>
-        <figure class="media r32 hg" data-src="media/hosting-1.jpg" data-label="Co-hosting at the podium"></figure>
-      </article>
-      <article class="tile wide">
-        <div class="side">
-          <p class="ctx">Plaksha, 2025 and 2026</p>
-          <h3>Resonance</h3>
-          <p>I danced in team pieces at Resonance in both 2025 and 2026.</p>
-        </div>
-        <div class="pair">
-          <figure class="media r32" data-src="media/resonance-2025.jpg" data-label="Performing at Resonance 2025"></figure>
-          <figure class="media r32" data-src="media/resonance-2026.jpg" data-label="Performing at Resonance 2026"></figure>
-        </div>
-      </article>
-      <article class="tile wide">
-        <div class="side">
-          <p class="ctx">Freelance, Goa</p>
-          <h3>Deepti Electricals</h3>
-          <p>A website for an electrical business in Goa.</p>
-          <div class="pair">
-            <figure class="media" data-src="media/deepti-2.jpg" data-label="Screenshot 2"></figure>
-            <figure class="media" data-src="media/deepti-3.jpg" data-label="Screenshot 3"></figure>
-          </div>
-        </div>
-        <div class="window">
-          <div class="bar"><i></i><i></i><i></i><span>Deepti Electricals</span></div>
-          <figure class="media" data-src="media/deepti-1.jpg" data-label="Website screenshot"></figure>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- Toolkit and contact -->
-<section class="band dark" id="contact" aria-labelledby="t-kit">
-  <div class="in">
-    <h2 class="title" id="t-kit">What I work with</h2>
-    <div class="kit">
-      <div><h4>Microcontrollers</h4><p>ESP32-S3, Raspberry Pi Pico and Teensy 4.x, with basic STM32</p></div>
-      <div><h4>Interfaces and control</h4><p>CAN, UART, I²C, PWM, PID, quadrature encoders</p></div>
-      <div><h4>Electronics</h4><p>KiCad, Velxio, sensor calibration, bench debugging</p></div>
-      <div><h4>Robotics</h4><p>ROS 2 Humble, MuJoCo, CoppeliaSim</p></div>
-      <div><h4>Software</h4><p>C++ and Python, plus AI-assisted builds with Google Antigravity and Claude Code</p></div>
-      <div><h4>Creative</h4><p>Directing, editing, photography, hosting</p></div>
-    </div>
-    <div class="intro" style="margin-top:120px">
-      <h2 class="title" id="get-in-touch">Contact</h2>
-      <p class="lead">I'm looking for internships and research work in embedded systems, robotics and creative technology. Email is the quickest way to reach me.</p>
-      <div class="ctas">
-        <button type="button" class="btn" id="mail" data-mail="omkarrane0110@gmail.com" title="Click to copy" aria-label="Copy email address omkarrane0110@gmail.com">omkarrane0110@gmail.com</button>
-        <a href="https://www.linkedin.com/in/omkar-bhupesh-rane-66b61338a" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://github.com/omkaarr-dev" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <span class="sr" id="mailHint" aria-live="polite"></span>
-    </div>
+    </section>
+    <footer><span>Omkar Rane, Mohali and Goa<span id="clock"></span></span><span>Last entry November 2026</span></footer>
   </div>
-</section>
-
-<footer><div class="in"><span>Omkar Rane, Mohali and Goa<span id="clock"></span></span><span>Updated November 2026</span></div></footer>
-<button type="button" class="totop" id="totop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+</main>
 
 <script>
 (function(){
-  /* Media slots: load media/<file>. If a file isn't uploaded yet, the slot is removed so visitors never see an empty box. */
+  /* Media: load each file; if one isn't there yet, remove its photo or printout so there are no empty frames. */
   function drop(f){
-    var wrap=f.parentNode; f.remove();
-    if(wrap && wrap.matches('.window,.pair,.stack,.phones') && !wrap.querySelector('figure.media')){ var w2=wrap.parentNode; wrap.remove(); wrap=w2; }
-    if(wrap && wrap.matches('.window') && !wrap.querySelector('figure.media')){ var w3=wrap.parentNode; wrap.remove(); wrap=w3; }
-    var tile=(wrap&&wrap.closest)?wrap.closest('.tile.wide'):null;
-    if(tile && tile.children.length<2) tile.classList.add('solo');
+    var holder=f.closest('.snap,.sheet')||f; var row=holder.parentNode; holder.remove();
+    if(row && row.matches && row.matches('.row,.phones') && !row.children.length) row.remove();
   }
-  var cam='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>';
-  var vid='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>';
-  document.querySelectorAll('figure.media[data-youtube]').forEach(function(f){
+  document.querySelectorAll('.media[data-youtube]').forEach(function(f){
     var id=f.getAttribute('data-youtube'), b=document.createElement('button'); b.type='button'; b.className='yt'; b.setAttribute('aria-label','Play '+(f.getAttribute('data-label')||'video'));
     b.style.backgroundImage='url(https://i.ytimg.com/vi/'+id+'/hqdefault.jpg)'; b.innerHTML='<span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
     b.addEventListener('click',function(){ var i=document.createElement('iframe'); i.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0'; i.title=f.getAttribute('data-label')||'Video'; i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen'; i.allowFullscreen=true; b.replaceWith(i); });
-    f.appendChild(b); f.classList.add('loaded');
+    f.appendChild(b);
   });
-  document.querySelectorAll('figure.media[data-src]').forEach(function(f){
-    var src=f.getAttribute('data-src'), isVid=f.getAttribute('data-kind')==='video', label=f.getAttribute('data-label')||'';
-    var ph=document.createElement('div'); ph.className='ph'; f.appendChild(ph);
-    var el;
-    if(isVid){ el=document.createElement('video'); el.controls=true; el.playsInline=true; el.preload='metadata';
-      if(f.getAttribute('data-poster')) el.poster=f.getAttribute('data-poster');
+  document.querySelectorAll('.media[data-src]').forEach(function(f){
+    var src=f.getAttribute('data-src'), vid=f.getAttribute('data-kind')==='video', el;
+    if(vid){ el=document.createElement('video'); el.controls=true; el.playsInline=true; el.preload='metadata';
+      var poster=src.replace(/\.mp4$/,'-poster.jpg'); el.poster=poster;
       el.addEventListener('loadedmetadata',function(){f.classList.add('loaded')});
-    } else { el=document.createElement('img'); el.alt=label; el.decoding='async';
-      el.addEventListener('load',function(){f.classList.add('loaded')});
-      if(f.classList.contains('hg')){ el.className='main'; var bl=document.createElement('img'); bl.className='blur'; bl.alt=''; bl.src=src; f.appendChild(bl); }
-    }
+    } else { el=document.createElement('img'); el.alt=f.getAttribute('data-label')||''; el.decoding='async';
+      el.addEventListener('load',function(){f.classList.add('loaded')}); }
     el.addEventListener('error',function(){ drop(f); });
-    el.src=src; f.insertBefore(el,ph);
-    if(el.className==='main') f.appendChild(el);
+    el.src=src; f.appendChild(el);
   });
 
-  /* Beer–Lambert demo: A = k·c (k chosen so A = 1 at full scale), T = 10^-A. */
-  var r=document.getElementById('conc'), liq=document.getElementById('liquid'),
-      bo=document.getElementById('beamOut'), lo=document.getElementById('lineOut'),
-      tO=document.getElementById('tOut'), aO=document.getElementById('aOut');
-  function upd(){
-    var c=r.value/100, A=c*1.0, T=Math.pow(10,-A);
-    liq.setAttribute('opacity',(0.08+0.85*c).toFixed(2));
-    bo.setAttribute('opacity',(0.25*T).toFixed(3));
-    lo.setAttribute('opacity',(0.2+0.8*T).toFixed(2));
-    tO.textContent=Math.round(T*100)+'%'; aO.textContent=A.toFixed(2);
-  }
-  r.addEventListener('input',upd);
-  document.querySelectorAll('.tests button').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('.tests button').forEach(function(x){x.setAttribute('aria-pressed','false')});
-      b.setAttribute('aria-pressed','true'); liq.setAttribute('fill',b.getAttribute('data-c'));
-    });
-  });
-  upd();
-
-  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* Hosting photos: the thumbnails swap the main picture. */
-  var hg=document.querySelector('.media.hg');
-  if(hg){
-    var setHg=function(src,alt){
-      var m=hg.querySelector('img.main'), b=hg.querySelector('img.blur'); if(!m) return;
-      if(still){ m.src=src; m.alt=alt; b.src=src; return; }
-      m.classList.add('fade');
-      setTimeout(function(){ m.src=src; m.alt=alt; b.src=src; m.onload=function(){m.classList.remove('fade')}; },200);
-    };
-    document.querySelectorAll('.thumbs button').forEach(function(t){
-      t.addEventListener('click',function(){
-        document.querySelectorAll('.thumbs button').forEach(function(x){x.setAttribute('aria-pressed','false')});
-        t.setAttribute('aria-pressed','true'); setHg(t.getAttribute('data-src'),t.getAttribute('data-alt'));
-      });
-      t.querySelector('img').addEventListener('error',function(){ t.remove(); });
-    });
-  }
-
-
-  /* Nav: mark the section you're reading. */
-  var navA={}; document.querySelectorAll('.top ul a').forEach(function(a){ navA[a.getAttribute('href').slice(1)]=a; });
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && navA[e.target.id]){
-      Object.keys(navA).forEach(function(k){navA[k].classList.remove('here')}); navA[e.target.id].classList.add('here'); } }); },{rootMargin:'-45% 0px -50% 0px'});
-    Object.keys(navA).forEach(function(k){ var el=document.getElementById(k); if(el) io.observe(el); });
-  }
-
-  /* Reading progress under the nav, and the back-to-top button. */
-  var prog=document.querySelector('.prog'), top=document.getElementById('totop'), ticking=false;
-  function onScroll(){ ticking=false; var h=document.documentElement, max=h.scrollHeight-h.clientHeight, y=h.scrollTop||document.body.scrollTop;
-    if(prog) prog.style.transform='scaleX('+(max>0?y/max:0)+')'; top.classList.toggle('show',y>900); }
-  window.addEventListener('scroll',function(){ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } },{passive:true}); onScroll();
-  top.addEventListener('click',function(){ window.scrollTo({top:0,behavior:still?'auto':'smooth'}); });
-
-  /* Photo viewer: click a photo to see it whole. Esc or a click closes it. */
-  var lastFocus=null;
+  /* Click a photo to see it whole. */
+  var last=null;
   document.addEventListener('click',function(e){
-    var im=e.target.closest&&e.target.closest('.media.loaded img'); if(!im || im.classList.contains('blur')) return;
-    lastFocus=document.activeElement;
+    var im=e.target.closest&&e.target.closest('.media.loaded img'); if(!im) return;
+    last=document.activeElement;
     var v=document.createElement('div'); v.className='viewer'; v.setAttribute('role','dialog'); v.setAttribute('aria-modal','true'); v.setAttribute('aria-label',im.alt||'Photo'); v.tabIndex=-1;
     var big=document.createElement('img'); big.src=im.currentSrc||im.src; big.alt=im.alt; v.appendChild(big);
-    if(im.alt){ var cap=document.createElement('p'); cap.textContent=im.alt; v.appendChild(cap); }
-    function close(){ v.remove(); document.removeEventListener('keydown',key); document.body.style.overflow=''; if(lastFocus) lastFocus.focus(); }
+    if(im.alt){ var c=document.createElement('p'); c.textContent=im.alt; v.appendChild(c); }
+    function close(){ v.remove(); document.removeEventListener('keydown',key); document.body.style.overflow=''; if(last) last.focus(); }
     function key(ev){ if(ev.key==='Escape') close(); }
     v.addEventListener('click',close); document.addEventListener('keydown',key);
-    document.body.appendChild(v); document.body.style.overflow='hidden'; v.focus(); requestAnimationFrame(function(){v.classList.add('open')});
+    document.body.appendChild(v); document.body.style.overflow='hidden'; v.focus();
   });
 
-  /* Copy the email address: the button itself says "Copied" for a moment. */
+  /* Copy the email address; the button says so for a moment. */
   var mail=document.getElementById('mail'), mh=document.getElementById('mailHint');
-  if(mail){ var addr=mail.getAttribute('data-mail'), tmr;
-    mail.style.minWidth=mail.offsetWidth+'px';
+  if(mail){ var addr=mail.getAttribute('data-mail'), t; mail.style.minWidth=mail.offsetWidth+'px';
     mail.addEventListener('click',function(){
-      function say(t){ clearTimeout(tmr); mail.textContent=t; mh.textContent=t; tmr=setTimeout(function(){ mail.textContent=addr; mh.textContent=''; },1800); }
+      function say(x){ clearTimeout(t); mail.textContent=x; mh.textContent=x; t=setTimeout(function(){ mail.textContent=addr; mh.textContent=''; },1800); }
       if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(addr).then(function(){say('Copied to clipboard')},function(){say(addr)}); else say(addr);
-    });
+    }); }
+
+  /* Underline the entry you're reading in the top index. */
+  var links={}; document.querySelectorAll('.bar nav a').forEach(function(a){ links[a.getAttribute('href').slice(1)]=a; });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting&&links[e.target.id]){ for(var k in links) links[k].classList.remove('here'); links[e.target.id].classList.add('here'); } }); },{rootMargin:'-40% 0px -55% 0px'});
+    for(var k in links){ var el=document.getElementById(k); if(el) io.observe(el); }
   }
 
-  /* Local time in India, in the footer. */
+  /* Local time in India. */
   var clock=document.getElementById('clock');
   function tick(){ try{ clock.textContent=', where it\'s '+new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'numeric',minute:'2-digit'})+' now'; }catch(e){} }
   tick(); setInterval(tick,30000);
