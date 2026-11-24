@@ -88,7 +88,6 @@ button:focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .ctas button.btn{border:0;font:inherit;font-size:15px;font-weight:500;cursor:pointer}
 .band.dark .ctas .btn{background:var(--on-dark);color:var(--black)}
 .band.dark .ctas .btn:hover{background:#fff}
-.hint{display:block;font-size:12px;color:var(--on-dark-muted);margin-top:12px;min-height:1.4em;text-align:center}
 @media (prefers-reduced-motion:reduce){.totop,.viewer{transition:none}}
 .yt{position:absolute;inset:0;border:0;padding:0;background:#000 center/cover no-repeat;cursor:pointer;display:grid;place-items:center}
 .yt span{width:68px;height:48px;border-radius:14px;background:rgba(0,0,0,.7);display:grid;place-items:center;transition:background .2s}
@@ -701,11 +700,11 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <h2 class="title">Contact</h2>
       <p class="lead">I'm looking for internships and research work in embedded systems, robotics and creative technology. Email is the quickest way to reach me.</p>
       <div class="ctas">
-        <button type="button" class="btn" id="mail" data-mail="omkarrane0110@gmail.com" title="Copy email address">omkarrane0110@gmail.com</button>
+        <button type="button" class="btn" id="mail" data-mail="omkarrane0110@gmail.com" title="Click to copy" aria-label="Copy email address omkarrane0110@gmail.com">omkarrane0110@gmail.com</button>
         <a href="https://www.linkedin.com/in/omkar-bhupesh-rane-66b61338a" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://github.com/omkaarr-dev" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <span class="hint" id="mailHint" aria-live="polite">Click the address to copy it</span>
+      <span class="sr" id="mailHint" aria-live="polite"></span>
     </div>
   </div>
 </section>
@@ -817,14 +816,15 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     document.body.appendChild(v); document.body.style.overflow='hidden'; v.focus(); requestAnimationFrame(function(){v.classList.add('open')});
   });
 
-  /* Copy the email address. */
+  /* Copy the email address: the button itself says "Copied" for a moment. */
   var mail=document.getElementById('mail'), mh=document.getElementById('mailHint');
-  if(mail) mail.addEventListener('click',function(){
-    var addr=mail.getAttribute('data-mail');
-    function ok(){ mh.textContent='Copied. Paste it into your email app.'; setTimeout(function(){mh.textContent='Click the address to copy it';},2500); }
-    function fallback(){ var r=document.createRange(); r.selectNodeContents(mail); var sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); mh.textContent='Selected. Press Ctrl+C or Cmd+C to copy.'; }
-    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(addr).then(ok,fallback); else fallback();
-  });
+  if(mail){ var addr=mail.getAttribute('data-mail'), tmr;
+    mail.style.minWidth=mail.offsetWidth+'px';
+    mail.addEventListener('click',function(){
+      function say(t){ clearTimeout(tmr); mail.textContent=t; mh.textContent=t; tmr=setTimeout(function(){ mail.textContent=addr; mh.textContent=''; },1800); }
+      if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(addr).then(function(){say('Copied to clipboard')},function(){say(addr)}); else say(addr);
+    });
+  }
 
   /* Local time in India, in the footer. */
   var clock=document.getElementById('clock');
