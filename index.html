@@ -48,6 +48,26 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .media.phone{aspect-ratio:1080/2376;width:min(240px,30%);border-radius:30px;border:7px solid #1D1D1F;background:#1D1D1F;box-shadow:0 30px 60px -30px rgba(0,0,0,.35)}
 .stack{display:grid;gap:12px}
 .tile.wide.solo{grid-template-columns:1fr}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.thumbs button{position:relative;padding:0;border:0;border-radius:12px;overflow:hidden;aspect-ratio:1/1;cursor:pointer;background:var(--grey);opacity:.55;transition:opacity .2s}
+.thumbs button:hover{opacity:.85}
+.thumbs button[aria-pressed=true]{opacity:1;box-shadow:0 0 0 2px #fff,0 0 0 4px var(--ink)}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.media.hg{background:#1D1D1F}
+.media.hg .blur{position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:cover;filter:blur(24px) brightness(.6)}
+.media.hg img.main{object-fit:contain;transition:opacity .25s}
+.media.hg img.main.fade{opacity:0}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pills button{font:inherit;font-size:13px;padding:6px 12px;border-radius:980px;border:1px solid var(--hair);background:transparent;color:var(--ink);cursor:pointer}
+.pills button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dark .pills button{border-color:var(--hair-dark);color:var(--on-dark)}
+.dark .pills button[aria-pressed=true]{background:var(--on-dark);color:var(--black);border-color:var(--on-dark)}
+.status{font-size:13px;margin-top:10px;min-height:2.6em;opacity:.8}
+button:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.dw .rx{transition:opacity .3s;opacity:0}
+.dw .rx.on{opacity:1}
+.drift{display:block;width:100%;height:auto;margin-top:12px}
 @media (max-width:520px){.phones{gap:10px}.media.phone{border-width:4px;border-radius:18px}}
 .hero h1{font-size:clamp(56px,11vw,124px);font-weight:800;line-height:.95;letter-spacing:-.025em;font-stretch:72%;text-transform:none}
 .hero .sub{font-size:clamp(21px,2.8vw,28px);font-weight:500;color:var(--muted);max-width:28ch;margin:20px auto 0;line-height:1.22;letter-spacing:-.01em}
@@ -253,7 +273,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p class="status"><i></i>Chromium is calibrated in the lab. Testing on the device is next.</p>
     </div>
 
-    <figure class="media big-media" data-src="media/sipsure-demo.mp4" data-kind="video" data-label="SipSure demo video"></figure>
+    <figure class="media big-media" data-src="media/sipsure-demo.mp4" data-poster="media/sipsure-demo-poster.jpg" data-kind="video" data-label="SipSure demo video"></figure>
 
     <div class="specs">
       <div class="spec"><div class="v">4</div><div class="k">water tests on one device</div></div>
@@ -424,7 +444,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p class="lead">Plaksha's University Rover Challenge team has about 50 students. I co-headed the electronics subsystem from my first year until late 2026. In that time we cleared the Preliminary Design Review and reached the System Acceptance Review with working prototypes.</p>
     </div>
 
-    <figure class="media big-media" data-src="media/kalki-rover.mp4" data-kind="video" data-label="Team Kalki rover video"></figure>
+    <figure class="media big-media" data-src="media/kalki-rover.mp4" data-poster="media/kalki-rover-poster.jpg" data-kind="video" data-label="Team Kalki rover video"></figure>
 
     <div class="specs">
       <div class="spec"><div class="v">~50</div><div class="k">students on the team</div></div>
@@ -466,9 +486,19 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <rect x="358" y="88" width="60" height="22" rx="4" class="box dash"/><text x="388" y="103" text-anchor="middle" class="m">transceiver</text>
             <line x1="388" y1="76" x2="388" y2="88" class="ln"/><line x1="378" y1="110" x2="378" y2="130" class="ln-s"/><line x1="398" y1="110" x2="398" y2="160" class="ln-s"/>
           </g>
+          <rect id="rx0" class="rx" x="66" y="20" width="118" height="60" rx="13" fill="none" stroke="var(--go)" stroke-width="2.5"/>
+          <rect id="rx1" class="rx" x="201" y="20" width="118" height="60" rx="13" fill="none" stroke="var(--go)" stroke-width="2.5"/>
+          <rect id="rx2" class="rx" x="336" y="20" width="104" height="60" rx="13" fill="none" stroke="var(--go)" stroke-width="2.5"/>
+          <g id="pk" opacity="0"><circle id="pkL" r="6" cy="130" fill="var(--go)"/><circle id="pkR" r="6" cy="130" fill="var(--go)"/><circle id="pkL2" r="6" cy="160" fill="var(--go)"/><circle id="pkR2" r="6" cy="160" fill="var(--go)"/></g>
         </svg>
         </div>
-        <figcaption><span>Figure 5. CAN bus on the rover, simplified</span><span>Terminated with 120 Ω at each end</span></figcaption>
+        <div class="pills" id="canBtns" role="group" aria-label="Send a CAN message">
+          <button type="button" data-from="0" aria-pressed="false">Teensy sends</button>
+          <button type="button" data-from="1" aria-pressed="false">Board 2 sends</button>
+          <button type="button" data-from="both" aria-pressed="false">Both at once</button>
+        </div>
+        <p class="status" id="canStatus" aria-live="polite">Pick a board to send a message.</p>
+        <figcaption><span>Figure 5. CAN bus on the rover, simplified. IDs are examples</span><span>Terminated with 120 Ω at each end</span></figcaption>
       </figure>
     </div>
   </div>
@@ -501,6 +531,17 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
               <text x="150" y="128" text-anchor="middle" class="m">2 × IR, facing down</text>
               <rect x="122" y="140" width="56" height="26" rx="4" class="box"/><text x="150" y="157" text-anchor="middle">Pico</text>
             </svg>
+            <svg class="drift dw" viewBox="0 0 300 90" role="img" aria-label="A straight run, with and without encoder feedback">
+              <line x1="20" y1="45" x2="280" y2="45" class="ln dash"/>
+              <rect x="276" y="25" width="4" height="40" fill="currentColor" opacity=".5"/>
+              <path id="drPath" d="M20 45 L280 45" fill="none" stroke="var(--go)" stroke-width="2.5" stroke-linecap="round"/>
+              <circle id="drBot" cx="20" cy="45" r="7" fill="var(--ink)"/>
+            </svg>
+            <div class="pills" id="drBtns" role="group" aria-label="Drive mode">
+              <button type="button" data-mode="open" aria-pressed="false">First version</button>
+              <button type="button" data-mode="enc" aria-pressed="true">With encoders</button>
+            </div>
+            <p class="status" id="drStatus" aria-live="polite">Encoders let the Pico match both wheel speeds, so it holds a straight line.</p>
             <figcaption><span>Figure 6. Top view, sensor placement approximate</span></figcaption>
           </figure>
         </div>
@@ -577,7 +618,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <p class="ctx">CTLC course</p>
         <h3>Fast fashion documentary</h3>
         <p>A team documentary about fast fashion. I shot most of the footage and set up the interviews, and helped with the script and direction.</p>
-        <figure class="media" data-src="media/fast-fashion-doc.mp4" data-kind="video" data-label="Documentary clip"></figure>
+        <figure class="media" data-src="media/fast-fashion-doc.mp4" data-poster="media/fast-fashion-doc-poster.jpg" data-kind="video" data-label="Documentary clip"></figure>
       </article>
       <article class="tile wide">
         <div class="side">
@@ -594,7 +635,21 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <figure class="media" data-src="media/deepti-1.jpg" data-label="Website screenshot"></figure>
         </div>
       </article>
-      <article class="tile third">
+      <article class="tile wide hosting">
+        <div class="side">
+          <p class="ctx">Ongoing</p>
+          <h3>Hosting</h3>
+          <p>I host campus events and moderate info sessions with visiting universities. A lot of it happens off the mic, like keeping a six-hour pitch event on schedule.</p>
+          <div class="thumbs" role="group" aria-label="Hosting photos">
+            <button type="button" aria-pressed="true" data-src="media/hosting-1.jpg" data-alt="Co-hosting at the podium"><img src="media/hosting-1.jpg" alt=""><span class="sr">Co-hosting at the podium</span></button>
+            <button type="button" aria-pressed="false" data-src="media/hosting-2.jpg" data-alt="Directing people at a campus event"><img src="media/hosting-2.jpg" alt=""><span class="sr">Directing people at an event</span></button>
+            <button type="button" aria-pressed="false" data-src="media/hosting-3.jpg" data-alt="On the mic at a campus event"><img src="media/hosting-3.jpg" alt=""><span class="sr">On the mic</span></button>
+            <button type="button" aria-pressed="false" data-src="media/hosting-4.jpg" data-alt="In conversation at a campus event"><img src="media/hosting-4.jpg" alt=""><span class="sr">In conversation</span></button>
+          </div>
+        </div>
+        <figure class="media r32 hg" data-src="media/hosting-1.jpg" data-label="Co-hosting at the podium"></figure>
+      </article>
+      <article class="tile">
         <p class="ctx">Plaksha, 2025 and 2026</p>
         <h3>Resonance</h3>
         <p>I danced in team pieces at Resonance in both 2025 and 2026.</p>
@@ -603,13 +658,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <figure class="media" data-src="media/resonance-2026.jpg" data-label="Performing at Resonance 2026"></figure>
         </div>
       </article>
-      <article class="tile third">
-        <p class="ctx">Ongoing</p>
-        <h3>Hosting</h3>
-        <p>I host campus events and moderate info sessions with visiting universities.</p>
-        <figure class="media r32" data-src="media/hosting.jpg" data-label="Coordinating at a campus event"></figure>
-      </article>
-      <article class="tile third">
+      <article class="tile">
         <p class="ctx">Office of Global Engagements</p>
         <h3>Photography</h3>
         <p>I photograph sessions and visits for the Office of Global Engagements, from Grad 101 days to talks by visiting universities.</p>
@@ -635,9 +684,9 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <h2 class="title">Contact</h2>
       <p class="lead">I'm looking for internships and research work in embedded systems, robotics and creative technology. Email is the quickest way to reach me.</p>
       <div class="ctas">
-        <span class="btn" style="user-select:all">[your email]</span>
-        <a href="#">[LinkedIn]</a>
-        <a href="#">[GitHub]</a>
+        <a class="btn" href="mailto:omkarrane0110@gmail.com">omkarrane0110@gmail.com</a>
+        <a href="https://www.linkedin.com/in/omkar-bhupesh-rane-66b61338a" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/omkaarr-dev" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </div>
@@ -661,13 +710,16 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     var src=f.getAttribute('data-src'), isVid=f.getAttribute('data-kind')==='video', label=f.getAttribute('data-label')||'';
     var ph=document.createElement('div'); ph.className='ph'; f.appendChild(ph);
     var el;
-    if(isVid){ el=document.createElement('video'); el.controls=true; el.playsInline=true; el.preload='metadata'; el.muted=true;
-      el.addEventListener('loadeddata',function(){f.classList.add('loaded')});
+    if(isVid){ el=document.createElement('video'); el.controls=true; el.playsInline=true; el.preload='metadata';
+      if(f.getAttribute('data-poster')) el.poster=f.getAttribute('data-poster');
+      el.addEventListener('loadedmetadata',function(){f.classList.add('loaded')});
     } else { el=document.createElement('img'); el.alt=label; el.decoding='async';
       el.addEventListener('load',function(){f.classList.add('loaded')});
+      if(f.classList.contains('hg')){ el.className='main'; var bl=document.createElement('img'); bl.className='blur'; bl.alt=''; bl.src=src; f.appendChild(bl); }
     }
     el.addEventListener('error',function(){ drop(f); });
     el.src=src; f.insertBefore(el,ph);
+    if(el.className==='main') f.appendChild(el);
   });
 
   /* Beer–Lambert demo: A = k·c (k chosen so A = 1 at full scale), T = 10^-A. */
@@ -689,6 +741,76 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     });
   });
   upd();
+
+  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Hosting photos: the thumbnails swap the main picture. */
+  var hg=document.querySelector('.media.hg');
+  if(hg){
+    var setHg=function(src,alt){
+      var m=hg.querySelector('img.main'), b=hg.querySelector('img.blur'); if(!m) return;
+      if(still){ m.src=src; m.alt=alt; b.src=src; return; }
+      m.classList.add('fade');
+      setTimeout(function(){ m.src=src; m.alt=alt; b.src=src; m.onload=function(){m.classList.remove('fade')}; },200);
+    };
+    document.querySelectorAll('.thumbs button').forEach(function(t){
+      t.addEventListener('click',function(){
+        document.querySelectorAll('.thumbs button').forEach(function(x){x.setAttribute('aria-pressed','false')});
+        t.setAttribute('aria-pressed','true'); setHg(t.getAttribute('data-src'),t.getAttribute('data-alt'));
+      });
+      t.querySelector('img').addEventListener('error',function(){ t.remove(); });
+    });
+  }
+
+  /* CAN bus: a message spreads from the sender along both wires; every other board sees it. */
+  var taps=[125,260,388], names=['Teensy','Board 2','More boards'], ids=['0x120','0x0A0'];
+  var pk=document.getElementById('pk'), cs=document.getElementById('canStatus'), busy=false;
+  function sendFrom(i,done){
+    var L=[document.getElementById('pkL'),document.getElementById('pkL2')], Rr=[document.getElementById('pkR'),document.getElementById('pkR2')];
+    var x0=taps[i], seen={}; seen[i]=1;
+    function mark(x){ taps.forEach(function(t,k){ if(!seen[k] && Math.abs(t-x)<8){ seen[k]=1; var r=document.getElementById('rx'+k); r.classList.add('on'); setTimeout(function(){r.classList.remove('on')},900); } }); }
+    if(still){ taps.forEach(function(t,k){ if(k!==i) mark(t); }); setTimeout(done,600); return; }
+    pk.setAttribute('opacity','1'); var t0=null, D=900;
+    function step(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/D);
+      var xl=x0-(x0-40)*p, xr=x0+(452-x0)*p;
+      L.forEach(function(c){c.setAttribute('cx',xl)}); Rr.forEach(function(c){c.setAttribute('cx',xr)});
+      mark(xl); mark(xr);
+      if(p<1) requestAnimationFrame(step); else { pk.setAttribute('opacity','0'); done(); } }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll('#canBtns button').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(busy) return; busy=true;
+      document.querySelectorAll('#canBtns button').forEach(function(x){x.setAttribute('aria-pressed','false')}); b.setAttribute('aria-pressed','true');
+      var f=b.getAttribute('data-from'), end=function(){busy=false;};
+      if(f==='both'){
+        cs.textContent='Both start together. The lower ID wins arbitration, so Board 2 ('+ids[1]+') goes first and the Teensy waits.';
+        sendFrom(1,function(){ cs.textContent='Then the Teensy ('+ids[0]+') sends straight after. Nothing was lost or corrupted.'; sendFrom(0,end); });
+      } else { var i=+f; cs.textContent=names[i]+' sends ID '+ids[i]+'. Every other board hears it and keeps it only if it cares about that ID.'; sendFrom(i,end); }
+    });
+  });
+
+  /* Navigation robot: a straight run with and without encoder feedback. */
+  var dp=document.getElementById('drPath'), db=document.getElementById('drBot'), ds=document.getElementById('drStatus'), dAnim=0;
+  var paths={open:'M20 45 C 110 45, 200 50, 280 82', enc:'M20 45 L280 45'};
+  var msgs={open:'One motor is faster than the other, so it slowly pulls off the line.', enc:'Encoders let the Pico match both wheel speeds, so it holds a straight line.'};
+  function drive(mode){
+    dp.setAttribute('d',paths[mode]); ds.textContent=msgs[mode];
+    var len=dp.getTotalLength(); cancelAnimationFrame(dAnim);
+    if(still){ var e=dp.getPointAtLength(len); db.setAttribute('cx',e.x); db.setAttribute('cy',e.y); dp.style.strokeDasharray=''; return; }
+    dp.style.strokeDasharray=len; var t0=null;
+    function step(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/1400), q=dp.getPointAtLength(len*p);
+      dp.style.strokeDashoffset=len*(1-p); db.setAttribute('cx',q.x); db.setAttribute('cy',q.y);
+      if(p<1) dAnim=requestAnimationFrame(step); }
+    dAnim=requestAnimationFrame(step);
+  }
+  document.querySelectorAll('#drBtns button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#drBtns button').forEach(function(x){x.setAttribute('aria-pressed','false')}); b.setAttribute('aria-pressed','true');
+      drive(b.getAttribute('data-mode'));
+    });
+  });
+  if(dp){ var e0=dp.getPointAtLength(dp.getTotalLength()); db.setAttribute('cx',e0.x); }
 })();
 </script>
 </body>
