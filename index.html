@@ -178,6 +178,21 @@ footer .wrap{width:100%}
   .bin div:nth-child(2n){border-right:0!important}
   .phones{gap:18px}.phones .snap{width:calc(33% - 12px)}
 }
+@media (max-width:480px){
+  body{font-size:16px}
+  .bin{grid-template-columns:1fr}
+  .bin div{border-right:0!important}
+  .bin div:last-child{border-bottom:0!important}
+  .tb{grid-template-columns:1fr}
+  .tb div{border-right:0!important}
+  .tb div:last-child{border-bottom:0!important}
+  .log,.log tbody,.log tr,.log td{display:block;width:auto}
+  .log td.d{border-right:0;border-bottom:0;padding-bottom:0;width:auto}
+  .row.r-4{gap:20px}
+  .snap::before{width:64px;margin-left:-32px}
+  .links{gap:10px}.btn{width:100%;text-align:center}
+}
+@media (max-width:860px) and (orientation:landscape){.stamp{position:static}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
